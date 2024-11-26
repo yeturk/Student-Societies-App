@@ -1,0 +1,74 @@
+.question-list {
+  width: 100%;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+.accordion-item {
+  margin: 10px 0;
+  width: 100%;
+}
+
+.accordion-title {
+  width: 100%;
+  background-color: rgb(217, 217, 217);
+  padding: 15px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-title:focus,
+.accordion-title:hover {
+  background-color: rgba(217, 217, 217, 0.4);
+  outline: none;
+}
+
+.accordion-title h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.accordion-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 10px 10px;
+}
+
+.accordion-answer.active {
+  max-height: none;
+  padding: 15px;
+}
+
+.accordion-answer p {
+  margin: 10px 0 0 0;
+  padding-left: 20px;
+  font-size: 1.2rem;
+  text-align: justify;
+  color: white;
+}
+
+.accordion-answer.active p {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+@media screen and (max-width: 768px) {
+  .question-list {
+      width: 95%;
+      padding: 5px;
+  }
+  
+  .accordion-answer.active {
+      padding: 10px;
+  }
+}

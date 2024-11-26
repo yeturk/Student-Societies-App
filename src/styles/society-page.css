@@ -1,0 +1,232 @@
+.society-page-container {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.body {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: rgb(230, 240, 255); /* Light bluish background */
+    padding: 10px 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-info-container {
+    width: 100%;
+    min-height: 300px;
+    background-color: rgb(173, 200, 247); /* Medium bluish background */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px;
+    gap: 20px;
+}
+
+.society-logo-container {
+    background-color: transparent;
+    width: 35%;
+    min-width: 200px;
+    height: 75%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.society-logo {
+    background-color: rgb(140, 165, 245); /* Darker bluish color */
+    width: 200px;
+    height: 200px;
+    max-width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+.society-info {
+    background-color: rgb(217, 230, 255); /* Light bluish background */
+    border-radius: 30px;
+    width: 50%;
+    min-height: 75%;
+    padding: 15px;
+    padding-left: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 15px;
+}
+
+.society-name {
+    color: #333;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    margin: 0;
+}
+
+.society-description {
+    color: #333;
+    font-size: clamp(0.9rem, 1.8vw, 1.4rem);
+    text-align: justify;
+    margin: 0;
+    padding-left: 15px;
+}
+
+.society-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.social-media-accounts {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.social-media-accounts a {
+    color: rgb(140, 165, 245); /* Dark bluish color */
+    font-size: clamp(30px, 4vw, 45px);
+}
+
+.social-media-accounts a:hover {
+    cursor: pointer;
+    color: rgb(110, 145, 230); /* Slightly lighter blue on hover */
+    transition: color 0.3s ease;
+}
+
+.follow-button, .email-button {
+    background-color: rgb(140, 165, 245); /* Dark bluish color */
+    width: 120px;
+    height: 40px;
+    margin-right: 20px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1rem, 1.8vw, 1.4rem);
+    color: white;
+}
+
+.follow-button:hover, .email-button:hover {
+    cursor: pointer;
+    background-color: rgb(110, 145, 230); /* Slightly lighter blue on hover */
+    transition: background-color 0.3s ease;
+}
+
+.image-slider-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 15px;
+    background-color: rgb(192, 210, 255); /* Light bluish background */
+    margin: 8px 0 20px 0;
+    width: 100%;
+}
+
+.activities {
+    width: 48%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.activities-title {
+    font-weight: bold;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.questions-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background-color: rgb(230, 240, 255); /* Light bluish background */
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.society-president-container {
+    width: 100%;
+    min-height: 200px;
+    background-color: rgb(192, 210, 255); /* Light bluish background */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.email-button {
+    width: 160px;
+}
+
+@media screen and (max-width: 1024px) {
+    .body {
+        width: 95%;
+    }
+    
+    .society-info {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .logo-info-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 250px;
+    }
+
+    .society-logo-container {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .society-info {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .society-links {
+        justify-content: center;
+    }
+
+    .image-slider-container {
+        flex-direction: column;
+    }
+
+    .activities {
+        width: 100%;
+    }
+
+    .follow-button, .email-button {
+        margin-right: 0;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .society-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .social-media-accounts {
+        justify-content: center;
+    }
+}
