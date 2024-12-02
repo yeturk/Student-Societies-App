@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Event Creation Form</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <form>
+      <div class="row">
+        <h4>Event Details</h4>
+        <div class="input-group input-group-icon">
+          <input type="text" placeholder="Title" />
+          <div class="input-icon">
+            <i class="fa fa-pencil"></i>
+          </div>
+        </div>
+        <div class="input-group input-group-icon">
+          <textarea placeholder="Description"></textarea>
+          <div class="input-icon">
+            <i class="fa fa-align-left"></i>
+          </div>
+        </div>
+        <div class="input-group input-group-icon">
+          <input type="text" placeholder="Location" />
+          <div class="input-icon">
+            <i class="fa fa-map-marker"></i>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-half">
+          <h4>Start Date and Time</h4>
+          <div class="input-group">
+            <div class="col-half">
+              <input type="date" />
+            </div>
+            <div class="col-half">
+              <input type="time" />
+            </div>
+          </div>
+        </div>
+        <div class="col-half">
+          <h4>End Date and Time</h4>
+          <div class="input-group">
+            <div class="col-half">
+              <input type="date" />
+            </div>
+            <div class="col-half">
+              <input type="time" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-half">
+          <h4>Type</h4>
+          <div class="input-group">
+            <input id="type-conference" type="radio" name="type" value="conference" checked />
+            <label for="type-conference">Conference</label>
+            <input id="type-sportif" type="radio" name="type" value="sportif" />
+            <label for="type-sportif">Sportif</label>
+            <input id="type-panel" type="radio" name="type" value="panel" />
+            <label for="type-panel">Panel</label>
+            <input id="type-seminar" type="radio" name="type" value="seminar" />
+            <label for="type-seminar">Seminar</label>
+            <input id="type-trip" type="radio" name="type" value="trip" />
+            <label for="type-trip">Trip</label>
+            <input id="type-stand" type="radio" name="type" value="stand" />
+            <label for="type-stand">Stand</label>
+            <input id="type-meeting" type="radio" name="type" value="meeting" />
+            <label for="type-meeting">Meeting</label>
+            <input id="type-cultural" type="radio" name="type" value="cultural" />
+            <label for="type-cultural">Cultural</label>
+            <input id="type-social-responsibility" type="radio" name="type" value="social-responsibility" />
+            <label for="type-social-responsibility">Social Responsibility</label>
+          </div>
+        </div>
+        <div class="col-half">
+          <h4>Guest</h4>
+          <div class="input-group input-group-icon">
+            <input type="text" placeholder="Guest" />
+            <div class="input-icon">
+              <i class="fa fa-users"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <button type="submit" class="btn">Create Event</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
