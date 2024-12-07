@@ -1,0 +1,48 @@
+.societies-section {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.societies-section:last-child {
+    margin-bottom: 0;
+}
+
+.societies-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #6B87F3;
+    text-align: center;
+}
+
+.societies-container {
+    background-color: rgba(107, 135, 243, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(107, 135, 243, 0.1);
+}
+
+.societies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.see-all-btn {
+    text-align: right;
+    margin: 5px 0;
+}
+
+.see-all-btn span {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: #6B87F3;
+    cursor: pointer;
+    padding: 2px 5px;
+    transition: all 0.2s ease;
+}
+
+.see-all-btn span:hover {
+    color: #5570d8;
+    transform: translateX(5px);
+}

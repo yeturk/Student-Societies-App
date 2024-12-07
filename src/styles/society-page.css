@@ -11,27 +11,28 @@
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    background-color: rgb(230, 240, 255); /* Light bluish background */
+    background-color: #ffffff;
     padding: 10px 0;
     flex: 1;
     display: flex;
     flex-direction: column;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(107, 135, 243, 0.1);
 }
 
 .logo-info-container {
     width: 100%;
     min-height: 300px;
-    background-color: rgb(173, 200, 247); /* Medium bluish background */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
     padding: 15px;
     gap: 20px;
+    border-radius: 20px;
 }
 
 .society-logo-container {
-    background-color: transparent;
     width: 35%;
     min-width: 200px;
     height: 75%;
@@ -42,39 +43,38 @@
 }
 
 .society-logo {
-    background-color: rgb(140, 165, 245); /* Darker bluish color */
+    background-color: #8aa2ff;
     width: 200px;
     height: 200px;
     max-width: 100%;
     aspect-ratio: 1;
     border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(107, 135, 243, 0.2);
 }
 
 .society-info {
-    background-color: rgb(217, 230, 255); /* Light bluish background */
-    border-radius: 30px;
     width: 50%;
     min-height: 75%;
-    padding: 15px;
-    padding-left: 25px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     gap: 15px;
+    box-shadow: 0 2px 4px rgba(107, 135, 243, 0.1);
 }
 
 .society-name {
     color: #333;
     font-size: clamp(1.8rem, 3.5vw, 2.5rem);
     margin: 0;
+    font-weight: 600;
 }
 
 .society-description {
-    color: #333;
+    color: #666;
     font-size: clamp(0.9rem, 1.8vw, 1.4rem);
     text-align: justify;
     margin: 0;
-    padding-left: 15px;
 }
 
 .society-links {
@@ -93,55 +93,71 @@
 }
 
 .social-media-accounts a {
-    color: rgb(140, 165, 245); /* Dark bluish color */
+    color: #8aa2ff;
     font-size: clamp(30px, 4vw, 45px);
 }
 
 .social-media-accounts a:hover {
-    cursor: pointer;
-    color: rgb(110, 145, 230); /* Slightly lighter blue on hover */
+    color: #6B87F3;
     transition: color 0.3s ease;
 }
 
 .follow-button, .email-button {
-    background-color: rgb(140, 165, 245); /* Dark bluish color */
+    background-color: #8aa2ff;
     width: 120px;
     height: 40px;
-    margin-right: 20px;
-    border-radius: 25px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: clamp(1rem, 1.8vw, 1.4rem);
     color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.follower-count {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #8aa2ff;
+    font-size: 1rem;
+    margin-left: 10px;
+}
+
+.follower-count svg {
+    font-size: clamp(20px, 3vw, 30px);
+}
+
+.follower-count span {
+    font-size: clamp(0.9rem, 1.8vw, 1.2rem);
 }
 
 .follow-button:hover, .email-button:hover {
-    cursor: pointer;
-    background-color: rgb(110, 145, 230); /* Slightly lighter blue on hover */
-    transition: background-color 0.3s ease;
+    background-color: #6B87F3;
 }
 
 .image-slider-container {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 15px;
-    background-color: rgb(192, 210, 255); /* Light bluish background */
-    margin: 8px 0 20px 0;
-    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    margin: 20px;
+    width: calc(100% - 40px);
+    border-radius: 15px;
 }
 
 .activities {
-    width: 48%;
+    width: 100%;
     text-align: center;
-    margin-top: 15px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(107, 135, 243, 0.1);
 }
 
 .activities-title {
-    font-weight: bold;
+    font-weight: 600;
     font-size: clamp(1.2rem, 2.5vw, 1.6rem);
     margin-bottom: 15px;
     color: #333;
@@ -153,22 +169,23 @@
     justify-content: space-between;
     align-items: center;
     gap: 15px;
-    padding: 15px;
-    background-color: rgb(230, 240, 255); /* Light bluish background */
-    width: 100%;
-    margin-bottom: 20px;
+    padding: 20px;
+    width: calc(100% - 40px);
+    margin: 0 20px 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(107, 135, 243, 0.1);
 }
 
 .society-president-container {
-    width: 100%;
+    width: calc(100% - 40px);
     min-height: 200px;
-    background-color: rgb(192, 210, 255); /* Light bluish background */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 20px;
+    margin: 0 20px 20px;
+    border-radius: 15px;
 }
 
 .email-button {
@@ -204,14 +221,6 @@
 
     .society-links {
         justify-content: center;
-    }
-
-    .image-slider-container {
-        flex-direction: column;
-    }
-
-    .activities {
-        width: 100%;
     }
 
     .follow-button, .email-button {

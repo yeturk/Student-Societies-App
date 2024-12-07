@@ -16,13 +16,12 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Homepage />}></Route>
 				<Route path="/all-societies" element={<AllSocietiesPage />}>
-					{/* <Route path="1" element={<SocietyPage societyIndex={}/>}></Route> */}
+					{/* <Route path="1" element={<SocietyPage societyIndex={0}/>}></Route> */}
 				</Route>
 				<Route path="/society-page" element={<SocietyPage societyIndex={0} />}></Route>
 				<Route path="/schedule" element={<SchedulePage />}></Route>
 				<Route path="/login" element={<LoginRegisterPage />}></Route>
 			</Routes>
-
 			<Footer />
 		</div>
 	);

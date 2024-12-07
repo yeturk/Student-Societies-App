@@ -1,6 +1,7 @@
-  import React from "react";
+import React from "react";
   import { FaInstagram } from "react-icons/fa";
   import { FaXTwitter } from "react-icons/fa6";
+  import { FaUser } from "react-icons/fa";
 
   import "./../styles/society-page.css";
   import "./../assets/logos/seferber.png";
@@ -20,38 +21,41 @@
 
     return (
       <div className="society-page-container">
-        <section className="body">
-          <div className="logo-info-container">
-            <div className="society-logo-container">
-              {/* <img src={logo} alt="society-logo" className="society-logo"></img> */}
-              <div className="society-logo"></div>
-            </div>
-            <div className="society-info">
-              <h1 className="society-name">{societyData.name}</h1>
-              <span className="society-description">{societyData.description}</span>
-              <div className="society-links">
-                <div className="social-media-accounts">
-                  {societyData?.instagram && (
-                    <a href={societyData.instagram} aria-label="Instagram"> 
-                      <FaInstagram />
-                    </a>
-                  )}
-                  {societyData?.x && (
-                    <a href={societyData.x} aria-label="X (formerly Twitter)">
-                      <FaXTwitter />
-                    </a>
-                  )}
+      <section className="body">
+        <div className="logo-info-container">
+          <div className="society-logo-container">
+            <div className="society-logo"></div>
+          </div>
+          <div className="society-info">
+            <h1 className="society-name">{societyData.name}</h1>
+            <span className="society-description">{societyData.description}</span>
+            <div className="society-links">
+              <div className="social-media-accounts">
+                {societyData?.instagram && (
+                  <a href={societyData.instagram} aria-label="Instagram"> 
+                    <FaInstagram />
+                  </a>
+                )}
+                {societyData?.x && (
+                  <a href={societyData.x} aria-label="X (formerly Twitter)">
+                    <FaXTwitter />
+                  </a>
+                )}
+                <div className="follower-count">
+                  <FaUser />
+                  <span>{societyData.followers || 0}</span>
                 </div>
-                <div className="follow-button">Sign up</div>
-                <div className="follow-button">Follow</div>
               </div>
+              <div className="follow-button">Sign up</div>
+              <div className="follow-button">Follow</div>
             </div>
           </div>
+        </div>
           <div className="image-slider-container">
             {images1.length !== 0 && 
             <>
               <div className="activities">
-                <p className="activities-title"> Previous Activities </p>
+                <p className="activities-title"> Upcoming Events </p>
                 <div className="image-slider">
                   <ImageSlider images={images1} />
                 </div>
@@ -61,7 +65,7 @@
             {images2.length !== 0 && 
             <>
               <div className="activities">
-                <p className="activities-title"> Upcoming Activities </p>
+                <p className="activities-title"> Past Events </p>
                 <div className="image-slider">
                   <ImageSlider images={images2} />
                 </div>
