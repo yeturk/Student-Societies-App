@@ -1,11 +1,8 @@
 package com.project.dto;
 
-import java.util.Date;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -21,14 +18,9 @@ public class DtoCommunityIU {
     @Size(max = 1000, message = "Description cannot exceed 1000 characters")
     private String description;
 
-    @PastOrPresent(message = "Created date cannot be in the future")
-    private Date createdDate;
-
     private String instagram;
 
     private String x;
-
-    private String facebook;
 
     @NotBlank(message = "President name is required")
     private String presidentName;

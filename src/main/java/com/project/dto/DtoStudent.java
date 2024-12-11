@@ -14,9 +14,7 @@ public class DtoStudent {
 	
 	private Integer id;
 	
-	private String firstName;
-	
-	private String lastName;
+	private String name;
 	
 	private List<DtoCommunity> communities = new ArrayList<>();
 }

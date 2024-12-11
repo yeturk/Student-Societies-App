@@ -44,7 +44,7 @@ public class CommunityControllerImpl implements ICommunityController {
 	
 	@GetMapping(path = "/list/{id}")
 	@Override
-	public DtoCommunity getCommunityById(@PathVariable(name = "id") Integer id) {
+	public DtoCommunityIU getCommunityById(@PathVariable(name = "id") Integer id) {
 		
 		return communityService.getCommunityById(id);
 	}

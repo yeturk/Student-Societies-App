@@ -1,21 +1,22 @@
-package com.project.services;
+package com.project.controller;
 
 import java.util.List;
 
 import com.project.dto.DtoCommunity;
 import com.project.dto.DtoCommunityIU;
+import jakarta.validation.Valid;
 
+public interface ICommunityController {
 
-public interface ICommunityService {
-
-	public DtoCommunity saveCommunity(DtoCommunityIU dtoCommunityIU);
+	public DtoCommunity saveCommunity(@Valid DtoCommunityIU dtoCommunityIU);
 
 	public List<DtoCommunity> getAllCommunities();
 
-	public DtoCommunity getCommunityById(Integer id);
+	public DtoCommunityIU getCommunityById(Integer id);
 
 	public void deleteCommunity(Integer id);
 
 	public DtoCommunity updateCommunity(Integer id, DtoCommunityIU dtoCommunityIU);
+	
 
 }

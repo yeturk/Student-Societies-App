@@ -15,12 +15,8 @@ import lombok.NoArgsConstructor;
 public class DtoStudentIU {
 	
 	@NotEmpty
-	@Size(min = 3, max = 15)
-	private String firstName;
-	
-	@NotEmpty
-	@Size(min = 2, max = 15)
-	private String lastName;
+	@Size(min = 3, max = 25)
+	private String name;
 	
 	@NotEmpty
 	@Email
@@ -29,8 +25,6 @@ public class DtoStudentIU {
 	@NotEmpty
 	@Size(min = 4, max = 15)
 	private String password;
-	
-	private String phoneNumber;
 	
 	private String department;
 

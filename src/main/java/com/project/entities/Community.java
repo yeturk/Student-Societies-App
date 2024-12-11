@@ -32,18 +32,12 @@ public class Community {
     @Column(name = "description", length = 1000) // Adjust length as needed
     private String description;
 
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-   private Date createdDate;
 
     @Column(name = "instagram")
     private String instagram;
 
     @Column(name = "x") 
     private String x;
-
-    @Column(name = "facebook")
-    private String facebook;
 
     @Column(name = "president_name")
     private String presidentName;

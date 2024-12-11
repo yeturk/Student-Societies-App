@@ -51,8 +51,8 @@ private CommunityRepository communityRepository;
 	}
 
 	@Override
-	public DtoCommunity getCommunityById(Integer id) {
-		DtoCommunity dtoCommunity = new DtoCommunity();
+	public DtoCommunityIU getCommunityById(Integer id) {
+		DtoCommunityIU dtoCommunity = new DtoCommunityIU();
 		Optional<Community> optional = communityRepository.findById(id);
 		
 		if(optional.isEmpty()) {
@@ -85,10 +85,8 @@ private CommunityRepository communityRepository;
 			Community dbCommunity = optional.get();
 			dbCommunity.setName(dtoCommunityIU.getName());
 			dbCommunity.setDescription(dtoCommunityIU.getDescription());
-			//dbCommunity.setCreatedDate(dtoCommunityIU.getCreatedDate());
 			dbCommunity.setInstagram(dtoCommunityIU.getInstagram());
 			dbCommunity.setX(dtoCommunityIU.getX());
-			dbCommunity.setFacebook(dtoCommunityIU.getFacebook());
 			dbCommunity.setPresidentName(dtoCommunityIU.getPresidentName());
 			dbCommunity.setPresidentMail(dtoCommunityIU.getPresidentMail());
 			dbCommunity.setNumberOfFollowers(dtoCommunityIU.getNumberOfFollowers());

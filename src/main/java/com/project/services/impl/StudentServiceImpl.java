@@ -175,8 +175,7 @@ public class StudentServiceImpl implements IStudentService{
 		Optional<Student> optional = studentRepository.findById(id);
 		if(optional.isPresent()) {
 			Student dbStudent = optional.get();
-			dbStudent.setFirstName(dtoStudentIU.getFirstName());
-			dbStudent.setLastName(dtoStudentIU.getLastName());
+			dbStudent.setName(dtoStudentIU.getName());
 			dbStudent.setEmail(dtoStudentIU.getEmail());
 			dbStudent.setPassword(dtoStudentIU.getPassword()); 
 			
