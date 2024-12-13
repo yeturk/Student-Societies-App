@@ -220,6 +220,47 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+.auth-message {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideDown 0.3s ease-out forwards;
+}
+
+.auth-error {
+    background-color: #FFE8E8;
+    color: #DC2626;
+    border: 1px solid #FCA5A5;
+}
+
+.auth-success {
+    background-color: #ECFDF5;
+    color: #059669;
+    border: 1px solid #6EE7B7;
+}
+
+@keyframes slideDown {
+    0% {
+    transform: translate(-50%, -20px);
+    opacity: 0;
+    }
+    100% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+    }
+}
+
+
 @media screen and (max-width: 900px) {
     .auth-wrapper {
         width: 90%;

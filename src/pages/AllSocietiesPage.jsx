@@ -1,30 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import axios from "axios";
 import "../styles/all-societies-page.css";
 import SocietyMini from "../components/SocietyMini";
 
+const api = axios.create({
+    baseURL: 'http://localhost:4000',
+    timeout: 5000,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
 function AllSocietiesPage() {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [searchTerm, setSearchTerm] = useState("");
-    const [showFollowedOnly, setShowFollowedOnly] = useState(false);
-    const [allSocieties, setAllSocieties] = useState([]); // Tüm topluluklar
+    const [showFollowedOnly, setShowFollowedOnly] = useState(
+        searchParams.get("followed") === "true"
+    );
+    const [allSocieties, setAllSocieties] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // İlk yüklemede tüm toplulukları getir
     useEffect(() => {
         fetchSocieties();
     }, []);
 
+    // Listen for URL parameter changes
+    useEffect(() => {
+        setShowFollowedOnly(searchParams.get("followed") === "true");
+    }, [searchParams]);
+
     const fetchSocieties = async () => {
         try {
             setIsLoading(true);
-            const response = await fetch('http://your-backend-url/api/societies');
-            if (!response.ok) {
-                throw new Error('Failed to fetch societies');
-            }
-            const data = await response.json();
+            const { data } = await api.get('/societies');
             setAllSocieties(data);
             setError(null);
         } catch (err) {
@@ -35,12 +47,11 @@ function AllSocietiesPage() {
         }
     };
 
-    // Client-side filtreleme
     const getFilteredSocieties = () => {
         return allSocieties.filter(society => {
             const matchesSearch = 
                 society.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                society.description.toLowerCase().includes(searchTerm.toLowerCase());
+                (society.description && society.description.toLowerCase().includes(searchTerm.toLowerCase()));
             
             const matchesFollowing = !showFollowedOnly || society.isFollowing;
 
@@ -53,7 +64,17 @@ function AllSocietiesPage() {
     };
 
     const handleFollowingFilter = (e) => {
-        setShowFollowedOnly(e.target.checked);
+        const isChecked = e.target.checked;
+        const newParams = new URLSearchParams(searchParams);
+        
+        if (isChecked) {
+            newParams.set("followed", "true");
+        } else {
+            newParams.delete("followed");
+        }
+        
+        setSearchParams(newParams);
+        setShowFollowedOnly(isChecked);
     };
 
     const handleSubmit = (e) => {
@@ -111,24 +132,24 @@ function AllSocietiesPage() {
                 </div>
                 <div className="societies">
                     <TransitionGroup className="society-list">
-                        {filteredSocieties.map((society) => (
-                            <CSSTransition
-                                key={society.id}
-                                timeout={500}
-                                classNames="society-item"
-                            >
-                                <li>
-                                    <NavLink to={`${society.id}`}>
-                                        <SocietyMini 
-                                            className="society-item" 
-                                            name={society.name} 
-                                            description={society.description} 
-                                            isFollowing={society.isFollowing}
-                                        />
-                                    </NavLink>
-                                </li>
-                            </CSSTransition>
-                        ))}
+                    {filteredSocieties.map((society) => (
+                        <CSSTransition
+                            key={society.id}
+                            timeout={500}
+                            classNames="society-item"
+                        >
+                            <li>
+                            <NavLink to={`/societies/${society.id}`}>
+                                <SocietyMini 
+                                    className="society-item" 
+                                    name={society.name} 
+                                    description={society.description} 
+                                    isFollowing={society.isFollowing}
+                                />
+                            </NavLink>
+                            </li>
+                        </CSSTransition>
+                    ))}
                     </TransitionGroup>
                 </div>
             </section>
