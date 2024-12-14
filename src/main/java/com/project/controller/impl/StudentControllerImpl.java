@@ -17,7 +17,6 @@ import com.project.controller.IStudentController;
 import com.project.dto.DtoLogin;
 import com.project.dto.DtoStudent;
 import com.project.dto.DtoStudentIU;
-import com.project.jwt.AuthResponse;
 import com.project.services.IStudentService;
 
 import jakarta.validation.Valid;
@@ -34,7 +33,7 @@ public class StudentControllerImpl implements IStudentController {
 	
 	@PostMapping(path = "/save")
 	@Override
-	public DtoStudent saveStudent(@RequestBody @Valid DtoStudentIU dtoStudentIU) {
+	public DtoStudentIU saveStudent(@RequestBody @Valid DtoStudentIU dtoStudentIU) {
 		return studentService.saveStudent(dtoStudentIU);
 	}
 
@@ -46,8 +45,8 @@ public class StudentControllerImpl implements IStudentController {
 	}
 	
 	@PostMapping(path = "/login")
-	@Override
-	public AuthResponse login(@RequestBody @Valid DtoLogin dtoLogin) {
+	@Override 
+	public DtoStudentIU login(@RequestBody @Valid DtoLogin dtoLogin) {
 		
 		return studentService.login(dtoLogin);
 	}

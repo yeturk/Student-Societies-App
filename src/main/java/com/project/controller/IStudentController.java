@@ -5,13 +5,12 @@ import java.util.List;
 import com.project.dto.DtoLogin;
 import com.project.dto.DtoStudent;
 import com.project.dto.DtoStudentIU;
-import com.project.jwt.AuthResponse;
 
 import jakarta.validation.Valid;
 
 public interface IStudentController {
 
-	public DtoStudent saveStudent(DtoStudentIU dtoStudentIU);
+	public DtoStudentIU saveStudent(DtoStudentIU dtoStudentIU);
 	
 	public List<DtoStudent> getAllStudents();
 	
@@ -23,7 +22,7 @@ public interface IStudentController {
 
 	public DtoStudent addStudentToCommunity(@Valid Integer student_id, @Valid Integer community_id);
 
-	public AuthResponse login(@Valid DtoLogin dtoLogin);
+	public DtoStudentIU login(@Valid DtoLogin dtoLogin);
 
 
 }

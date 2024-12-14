@@ -5,11 +5,10 @@ import java.util.List;
 import com.project.dto.DtoLogin;
 import com.project.dto.DtoStudent;
 import com.project.dto.DtoStudentIU;
-import com.project.jwt.AuthResponse;
 
 public interface IStudentService {
 
-	public DtoStudent saveStudent(DtoStudentIU dtoStudentIU);
+	public DtoStudentIU saveStudent(DtoStudentIU dtoStudentIU);
 	
 	public List<DtoStudent> getAllStudents();
 	
@@ -21,7 +20,7 @@ public interface IStudentService {
 
 	public DtoStudent addStudentToCommunity(Integer student_id, Integer community_id);
 
-	public AuthResponse login(DtoLogin dtoLogin);
+	public DtoStudentIU login(DtoLogin dtoLogin);
 	
 
 

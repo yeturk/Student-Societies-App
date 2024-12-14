@@ -6,27 +6,16 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.dto.DtoCommunity;
 import com.project.dto.DtoLogin;
 import com.project.dto.DtoStudent;
 import com.project.dto.DtoStudentIU;
-import com.project.dto.DtoUser;
 import com.project.entities.Community;
-import com.project.entities.RefreshToken;
 import com.project.entities.Student;
-import com.project.entities.User;
-import com.project.jwt.AuthResponse;
-import com.project.jwt.GenerateRefreshToken;
-import com.project.jwt.JwtService;
 import com.project.repository.CommunityRepository;
-import com.project.repository.RefreshTokenRepository;
 import com.project.repository.StudentRepository;
-import com.project.repository.UserRepository;
 import com.project.services.IStudentService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -41,37 +30,15 @@ public class StudentServiceImpl implements IStudentService{
 	private CommunityRepository communityRepository;
 	
 	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private AuthenticationProvider authenticationProvider;
-	
-	@Autowired
-	private JwtService jwtService;
-	
-	@Autowired
-	private RefreshTokenRepository refreshTokenRepository;
-	
-	@Autowired
-	private GenerateRefreshToken generateRefreshToken;
-	
-	private RefreshToken createRefreshToken(User user) {
-				
-		return generateRefreshToken.createRefreshToken(user);
-		
-	}
 
 	
 	@Override
-	public DtoStudent saveStudent(DtoStudentIU dtoStudentIU) {
-		DtoStudent response = new DtoStudent();
+	public DtoStudentIU saveStudent(DtoStudentIU dtoStudentIU) {
+		DtoStudentIU response = new DtoStudentIU();
 		Student student = new Student();
 		
 		if(!dtoStudentIU.getEmail().endsWith("@gtu.edu.tr")) {
+			System.out.println("email should be ended with @gtu.edu.tr)");
 			return null;
 		}
 		
@@ -80,41 +47,32 @@ public class StudentServiceImpl implements IStudentService{
 		Student dbStudent =  studentRepository.save(student);
 		
 		BeanUtils.copyProperties(dbStudent, response);
-		//<--->
-		User user = new User();
-		DtoUser dto = new DtoUser();
-		user.setUsername(dbStudent.getEmail());
-		user.setPassword(passwordEncoder.encode(dbStudent.getPassword()));
-		
-		User savedUser = userRepository.save(user);
-		BeanUtils.copyProperties(savedUser, dto);
 		
 		
 		return response;
 	}
 	
 	@Override
-	public AuthResponse login(DtoLogin dtoLogin) {
-		try {
-			UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken
-															(dtoLogin.getEmail(), dtoLogin.getPassword());
-			authenticationProvider.authenticate(auth);
+	public DtoStudentIU login(DtoLogin dtoLogin) {
+		DtoStudentIU dtoStudent = new DtoStudentIU();
+		
+			Optional<Student> optional = studentRepository.findByEmail(dtoLogin.getEmail());
 			
-			Optional<User> optionalUser = userRepository.findByUsername(dtoLogin.getEmail());
+			if(optional.isEmpty()) {
+				
+				return null;
+			}
 			
-			String accessToken = jwtService.generateToken(optionalUser.get());
+			Student dbStudent = optional.get();
 			
-			RefreshToken refreshToken = createRefreshToken(optionalUser.get());
-			refreshTokenRepository.save(refreshToken);
+			if(!dbStudent.getPassword().equals(dtoLogin.getPassword())) {
+				
+				return null;
+			}
 			
-			return new AuthResponse(accessToken, refreshToken.getRefreshToken());
+			BeanUtils.copyProperties(dbStudent, dtoStudent);
 			
-			
-			
-		} catch (Exception e) {
-		System.out.println("usarname or password is wrong");
-		}
-		return null;
+			return dtoStudent;
 	}
 	
 
