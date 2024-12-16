@@ -1,0 +1,31 @@
+.event-list-container {
+    width: 100%;
+    padding: 15px;
+    background-color: rgba(107, 135, 243, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(107, 135, 243, 0.1);
+}
+
+.event-list-header {
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.event-list-header span {
+    color: #6B87F3;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.event-list-header span:hover {
+    color: #5570d8;
+    transform: translateX(5px);
+}
+
+.event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

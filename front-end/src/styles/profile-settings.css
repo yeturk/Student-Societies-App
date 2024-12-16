@@ -1,0 +1,498 @@
+/* components/AccountSettings/styles.css */
+.account-settings-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.account-settings-header {
+  font-weight: 700;
+  padding: 30px;
+  margin: 0;
+  font-size: 28px;
+  color: rgb(101, 135, 236);
+  border-bottom: 1px solid #edf2f7;
+}
+
+.account-settings-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+}
+
+.account-settings-content-wrapper {
+  display: flex;
+  flex: 1;
+  min-height: 100%;
+}
+
+.account-settings-main-content {
+  flex: 1;
+  padding: 32px;
+  background: #ffffff;
+}
+
+/* Sidebar styles */
+.account-settings-sidebar {
+  width: 260px;
+  background: #f8fafc;
+  border-right: 1px solid #edf2f7;
+  flex-shrink: 0;
+}
+
+.account-settings-sidebar-item {
+  display: block;
+  width: 100%;
+  padding: 16px 24px;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #64748b;
+  font-weight: 500;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.account-settings-sidebar-item:hover {
+  background: rgba(101, 135, 236, 0.1);
+  color: rgb(101, 135, 236);
+}
+
+.account-settings-sidebar-item--active {
+  font-weight: 600;
+  color: rgb(101, 135, 236);
+  background: rgba(101, 135, 236, 0.1);
+  border-left: 3px solid rgb(101, 135, 236);
+}
+
+/* Form Styles */
+.account-settings-section {
+  padding: 0;
+}
+
+.account-settings-form-group {
+  margin-bottom: 28px;
+}
+
+.account-settings-form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: rgb(101, 135, 236);
+  font-size: 14px;
+}
+
+.account-settings-form-input,
+.account-settings-form-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #2d3748;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.account-settings-form-input:hover,
+.account-settings-form-select:hover {
+  border-color: #cbd5e1;
+}
+
+.account-settings-form-input:focus,
+.account-settings-form-select:focus {
+  outline: none;
+  border-color: rgb(101, 135, 236);
+  box-shadow: 0 0 0 3px rgba(101, 135, 236, 0.1);
+}
+
+/* Profile Upload Styles */
+.account-settings-profile-upload {
+  display: flex;
+  align-items: center;
+  margin-bottom: 36px;
+  gap: 24px;
+}
+
+.account-settings-image-container {
+  position: relative;
+}
+
+.account-settings-profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.account-settings-camera-button {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  padding: 8px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  color: rgb(101, 135, 236);
+  transition: all 0.2s ease;
+}
+
+.account-settings-camera-button:hover {
+  background: rgba(101, 135, 236, 0.1);
+  transform: scale(1.05);
+}
+
+.account-settings-upload-controls {
+  flex: 1;
+}
+
+.account-settings-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: 1px solid rgb(101, 135, 236);
+  color: rgb(101, 135, 236);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.account-settings-upload-btn:hover {
+  background: rgba(101, 135, 236, 0.1);
+  transform: translateY(-1px);
+}
+
+.account-settings-reset-btn {
+  padding: 10px 20px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.account-settings-reset-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.account-settings-upload-hint {
+  color: #94a3b8;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+/* Alert Styles */
+.account-settings-alert {
+  background: #fef9c3;
+  border: 1px solid #fde047;
+  padding: 14px 18px;
+  border-radius: 8px;
+  color: #854d0e;
+  margin-top: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.account-settings-alert-link {
+  color: #854d0e;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.account-settings-alert-link:hover {
+  color: #713f12;
+}
+
+/* Checkbox Styles */
+.account-settings-checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.account-settings-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.account-settings-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  border: 2px solid rgb(101, 135, 236);
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background-color: white;
+}
+
+.account-settings-checkbox:checked {
+  background-color: rgb(101, 135, 236);
+}
+
+.account-settings-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  left: 2px;
+  top: -1px;
+}
+
+.account-settings-checkbox-item label {
+  color: #4a5568;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Divider */
+.account-settings-divider {
+  margin: 24px 0;
+  border: none;
+  border-top: 1px solid #e9ecef;
+}
+
+/* Section Title */
+.account-settings-section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: rgb(101, 135, 236);
+}
+
+/* Button Group */
+.account-settings-button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 24px 32px;
+  background: #f8fafc;
+  border-top: 1px solid #edf2f7;
+}
+
+.account-settings-btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.account-settings-btn--primary {
+  background: rgb(101, 135, 236);
+  color: white;
+  border: none;
+}
+
+.account-settings-btn--primary:hover {
+  background: rgb(81, 115, 216);
+  transform: translateY(-1px);
+}
+
+.account-settings-btn--secondary {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+}
+
+.account-settings-btn--secondary:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+/* Notification Page Specific Styles */
+.account-settings-notification-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(101, 135, 236);
+  margin-bottom: 24px;
+}
+
+.account-settings-notification-group {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.account-settings-notification-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.account-settings-notification-item:last-child {
+  border-bottom: none;
+}
+
+.account-settings-delete-section {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.account-settings-delete-title {
+  color: #dc2626;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.account-settings-delete-description {
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.account-settings-delete-btn {
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.account-settings-delete-btn:hover {
+  background-color: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.account-settings-delete-btn:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Delete Account için özel checkbox stilleri */
+.account-settings-delete-checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  border: 2px solid #dc2626;
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  background-color: white;
+}
+
+.account-settings-delete-checkbox:checked {
+  background-color: #dc2626;
+}
+
+.account-settings-delete-checkbox:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  left: 2px;
+  top: -1px;
+}
+
+/* Delete Account için sidebar öğesi özel stili */
+.account-settings-sidebar-item--delete {
+  color: #dc2626 !important;
+}
+
+.account-settings-sidebar-item--delete:hover {
+  background: rgba(220, 38, 38, 0.1) !important;
+  color: #b91c1c !important;
+}
+
+.account-settings-sidebar-item--delete.account-settings-sidebar-item--active {
+  background: rgba(220, 38, 38, 0.1) !important;
+  border-left: 3px solid #dc2626 !important;
+}
+
+/* Activity Title */
+.account-settings-activity-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: rgb(101, 135, 236);
+  margin-bottom: 24px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .account-settings-container {
+    margin: 20px auto;
+    border-radius: 12px;
+  }
+
+  .account-settings-header {
+    padding: 20px;
+    font-size: 24px;
+  }
+
+  .account-settings-content-wrapper {
+    flex-direction: column;
+  }
+
+  .account-settings-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #edf2f7;
+  }
+
+  .account-settings-main-content {
+    padding: 20px;
+  }
+
+  .account-settings-profile-upload {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .account-settings-upload-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .account-settings-button-group {
+    padding: 20px;
+    flex-direction: column;
+  }
+
+  .account-settings-btn {
+    width: 100%;
+  }
+}

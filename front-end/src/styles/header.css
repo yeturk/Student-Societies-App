@@ -71,3 +71,89 @@
 .login-button:hover {
     background-color: #506dc0;
 }
+
+.profile-container {
+    position: relative;
+    padding-right: 20px;
+}
+
+.profile-section {
+    position: relative;
+}
+
+.profile-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #7494ec; /* Mavi arka plan */
+    border: none;
+    cursor: pointer;
+    color: white; /* Beyaz yazı */
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-button:hover {
+    background-color: #506dc0; /* Hover durumunda koyu mavi */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-icon {
+    font-size: 24px;
+    color: white; /* İkon rengi beyaz */
+}
+
+.username {
+    font-size: 14px;
+    font-weight: 500;
+    color: white; /* Kullanıcı adı beyaz */
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    width: 200px;
+    z-index: 1000;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Dropdown ok işareti beyaz */
+.profile-button .IoMdArrowDropdown {
+    color: white;
+}
+
+.dropdown-item {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+.logout-button {
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #dc2626;
+    font-size: 14px;
+    padding: 12px 16px;
+}
+
+.logout-button:hover {
+    background-color: #fff5f5;
+}
