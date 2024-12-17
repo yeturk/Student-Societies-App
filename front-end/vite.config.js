@@ -5,10 +5,10 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': {
-        target: 'https://ssapp-4e5eb6f6c1a2.herokuapp.com',
+      '/rest/api': {
+        target: 'https://ssapp3-7f4178e843cf.herokuapp.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        secure: false,
       }
     }
   }

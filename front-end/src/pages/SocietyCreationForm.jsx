@@ -184,19 +184,6 @@ const SocietyCreationForm = () => {
                 <FaPencilAlt />
               </div>
             </div>
-
-            <div className="input-group input-group-icon">
-              <input
-                type="date"
-                name="createdDate"
-                placeholder="Created Date"
-                value={formData.createdDate}
-                onChange={handleInputChange}
-              />
-              <div className="input-icon">
-                <FaCalendarAlt />
-              </div>
-            </div>
           </div>
 
           <div className="form-section">
