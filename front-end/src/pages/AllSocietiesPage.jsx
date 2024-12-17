@@ -2,18 +2,10 @@ import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { NavLink, useSearchParams } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import axios from "axios";
+import { societiesApi } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import "../styles/all-societies-page.css";
 import SocietyMini from "../components/SocietyMini";
-
-const api = axios.create({
-    baseURL: 'http://localhost:4000',
-    timeout: 5000,
-    headers: {
-        'Content-Type': 'application/json'
-    }
-});
 
 function AllSocietiesPage() {
     const { user } = useAuth();
@@ -37,7 +29,7 @@ function AllSocietiesPage() {
     const fetchSocieties = async () => {
         try {
             setIsLoading(true);
-            const { data } = await api.get('/societies');
+            const { data } = await societiesApi.getAll();
             setAllSocieties(data);
             setError(null);
         } catch (err) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { usersApi } from '../../services/api';
 import Section from './Section';
 import FormGroup from './FormGroup';
 import { useAuth } from '../../context/AuthContext';
@@ -18,7 +18,7 @@ const DeleteAccount = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:4000/users/${user.id}`);
+      await usersApi.delete(user.id);
       logout();
       navigate('/login');
     } catch (err) {

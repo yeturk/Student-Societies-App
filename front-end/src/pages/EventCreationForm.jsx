@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { eventsApi } from "../services/api";
 import axios from "axios";
 import { FaPencilAlt, FaMapMarkerAlt, FaUsers, FaAlignLeft, FaCalendarAlt, FaClock, FaImage } from "react-icons/fa";
 import "../styles/event-creation.css";
@@ -93,7 +94,7 @@ const EventCreationForm = () => {
         endTime: formData.endTime,
         type: formData.type,
         guests: formData.guests,
-        societyId: "1", // Dinamik olarak alınmalı
+        societyId: "1", // Should be dynamic
       };
 
       // Image upload logic - commented out for now
@@ -106,11 +107,11 @@ const EventCreationForm = () => {
       }
       */
 
-      const response = await axios.post('http://localhost:4000/events', eventData);
+      const response = await eventsApi.create(eventData);
       console.log('Event created successfully:', response.data);
       navigate('/societies/1');
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to create event. Please try again.");
+      setError(err.message || "Failed to create event. Please try again.");
       console.error('Error creating event:', err);
     } finally {
       setLoading(false);

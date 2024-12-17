@@ -1,15 +1,8 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { eventsApi } from "../services/api";
 import "../styles/schedule.css";
-
-const api = axios.create({
-    baseURL: "http://localhost:4000/", 
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json"
-    }
-});
 
 function SchedulePage() {
     const [events, setEvents] = useState([]);
@@ -23,8 +16,7 @@ function SchedulePage() {
     const fetchEvents = async () => {
         try {
             setLoading(true);
-            // const { data } = await api.get("list");
-            const { data } = await api.get("events");
+            const { data } = await eventsApi.getAll();
             setEvents(data);
             setError(null);
         } catch (err) {
