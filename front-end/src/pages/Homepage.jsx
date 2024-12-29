@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { societiesApi } from "../services/api";
 import "../styles/homepage.css";
 import Societies from "../components/Societies";
 import ImageSlider from "../components/ImageSlider";
@@ -10,6 +9,14 @@ import axios from "axios";
 
 import img1 from "../assets/02.jpg";
 import img2 from "../assets/03.jpg";
+
+const api = axios.create({
+    baseURL: "http://localhost:4000",
+    timeout: 5000,
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
 
 function Homepage() {
     const { user } = useAuth();
@@ -38,7 +45,7 @@ function Homepage() {
     const fetchSocieties = async () => {
         try {
             setLoading(true);
-            const { data } = await societiesApi.getAll();
+            const { data } = await api.get("/societies");
             setAllSocieties(data);
 
             if (user && user.followedSocieties) {

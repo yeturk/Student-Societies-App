@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usersApi } from '../../services/api';
+import axios from 'axios';
 import Section from './Section';
 import FormGroup from './FormGroup';
 import Input from './Input';
@@ -35,7 +35,8 @@ const PasswordSettings = () => {
 
     try {
       // Mevcut kullanıcıyı ve şifresini kontrol et
-      const { data: currentUser } = await usersApi.getById(user.id);
+      const response = await axios.get(`http://localhost:4000/users/${user.id}`);
+      const currentUser = response.data;
 
       if (currentUser.password !== passwords.currentPassword) {
         setError('Current password is incorrect');
@@ -43,7 +44,7 @@ const PasswordSettings = () => {
       }
 
       // Şifreyi güncelle
-      await usersApi.update(user.id, {
+      await axios.patch(`http://localhost:4000/users/${user.id}`, {
         password: passwords.newPassword
       });
 

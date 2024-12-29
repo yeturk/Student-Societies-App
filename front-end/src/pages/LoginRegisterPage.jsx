@@ -4,7 +4,6 @@ import axios from "axios";
 import { FaUser, FaLock, FaEnvelope, FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import { IoMdBusiness } from "react-icons/io";
 import { useAuth } from "../context/AuthContext";
-import { usersApi } from '../services/api';
 import "../styles/login-register-page.css";
 
 function LoginRegisterPage() {
@@ -55,68 +54,76 @@ function LoginRegisterPage() {
 	};
 
 	const handleLogin = async (e) => {
-        e.preventDefault();
-        setError("");
-        setSuccess("");
+		e.preventDefault();
+		setError("");
+		setSuccess("");
 
-        try {
-            const user = await usersApi.login(formData.login.email, formData.login.password);
-            setSuccess(`Welcome back, ${user.name}! You have successfully logged in.`);
-            login({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                department: user.department,
-                role: user.role,
-                followedSocieties: user.followedSocieties || [],
-            });
+		try {
+			const response = await axios.get("http://localhost:4000/users");
+			const user = response.data.find(
+				(user) => user.email === formData.login.email && user.password === formData.login.password
+			);
 
-            setTimeout(() => {
-                navigate("/homepage");
-            }, 1500);
-        } catch (err) {
-            setError("Invalid email or password. Please check your credentials and try again.");
-            console.error("Login error:", err);
-        }
-    };
+			if (user) {
+				setSuccess(`Welcome back, ${user.name}! You have successfully logged in.`);
+				login({
+					id: user.id,
+					name: user.name,
+					email: user.email,
+					department: user.department,
+					role: user.role,
+					followedSocieties: user.followedSocieties || [], // Takip edilen toplulukları ekledik
+				});
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        setError("");
-        setSuccess("");
+				setTimeout(() => {
+					navigate("/homepage");
+				}, 1500);
+			} else {
+				setError("Invalid email or password. Please check your credentials and try again.");
+			}
+		} catch (err) {
+			setError("An error occurred while logging in. Please try again later.");
+			console.error("Login error:", err);
+		}
+	};
 
-        if (formData.register.password !== formData.register.confirmPassword) {
-            setError("Passwords do not match. Please try again.");
-            return;
-        }
+	const handleRegister = async (e) => {
+		e.preventDefault();
+		setError("");
+		setSuccess("");
 
-        try {
-            const { data: users } = await usersApi.getAll();
-            const existingUser = users.find((user) => user.email === formData.register.email);
+		if (formData.register.password !== formData.register.confirmPassword) {
+			setError("Passwords do not match. Please try again.");
+			return;
+		}
 
-            if (existingUser) {
-                setError("This email is already registered. Please use a different email address.");
-                return;
-            }
+		try {
+			const response = await axios.get("http://localhost:4000/users");
+			const existingUser = response.data.find((user) => user.email === formData.register.email);
 
-            const newUser = {
-                id: users.length + 1,
-                name: formData.register.name,
-                department: formData.register.department,
-                email: formData.register.email,
-                password: formData.register.password,
-                role: "student",
-                followedSocieties: [],
-            };
+			if (existingUser) {
+				setError("This email is already registered. Please use a different email address.");
+				return;
+			}
 
-            await usersApi.create(newUser);
-            setSuccess("Registration successful! You can now log in with your credentials.");
-            setIsLoginActive(true);
-        } catch (err) {
-            setError("An error occurred during registration. Please try again later.");
-            console.error("Registration error:", err);
-        }
-    };
+			const newUser = {
+				id: response.data.length + 1,
+				name: formData.register.name,
+				department: formData.register.department,
+				email: formData.register.email,
+				password: formData.register.password,
+				role: "student",
+				followedSocieties: [], // Boş bir takip listesi ile başlat
+			};
+
+			await axios.post("http://localhost:4000/users", newUser);
+			setSuccess("Registration successful! You can now log in with your credentials.");
+			setIsLoginActive(true);
+		} catch (err) {
+			setError("An error occurred during registration. Please try again later.");
+			console.error("Registration error:", err);
+		}
+	};
 
 	return (
 		<div className="auth-container">

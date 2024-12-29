@@ -7,7 +7,8 @@ import SocietyPage from "./pages/SocietyPage";
 import AllSocietiesPage from "./pages/AllSocietiesPage";
 import Homepage from "./pages/Homepage";
 import LoginRegisterPage from "./pages/LoginRegisterPage";
-import SchedulePage from "./pages/SchedulePage";
+// import SchedulePage from "./pages/SchedulePage";
+import Schedule from "./components/Schedule/Schedule";
 import AccountSettings from "./components/AccountSettings/UserSettings";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EventCreationForm from "./pages/EventCreationForm";
@@ -24,7 +25,7 @@ function App() {
                         <Route path="/homepage" element={<Homepage />} />
                         <Route path="/societies" element={<AllSocietiesPage />} />
                         <Route path="/societies/:id" element={<SocietyPage />} />
-                        <Route path="/schedule" element={<SchedulePage />} />
+                        <Route path="/schedule" element={<Schedule />} />
                         <Route path="/login" element={<LoginRegisterPage />} />
                         <Route path="/create-event" element={<EventCreationForm />} />
                         <Route path="/create-society" element={<SocietyCreationForm />} />

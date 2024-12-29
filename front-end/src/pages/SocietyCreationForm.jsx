@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { societiesApi } from "../services/api";
+import axios from "axios";
 import { FaPencilAlt, FaCalendarAlt, FaInstagram, FaFacebook, FaUser, FaEnvelope, FaImage } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import "../styles/society-creation.css";
@@ -100,7 +100,7 @@ const SocietyCreationForm = () => {
         questions: []
       };
 
-       // Image upload logic - commented out for now
+      // Image upload logic - commented out for now
       /*
       if (formData.image) {
         const formDataWithImage = new FormData();
@@ -110,11 +110,11 @@ const SocietyCreationForm = () => {
       }
       */
 
-      const response = await societiesApi.create(societyData);
+      const response = await axios.post('http://localhost:4000/societies', societyData);
       console.log('Society created successfully:', response.data);
       navigate('/societies');
     } catch (err) {
-      setError(err.message || "Failed to create society. Please try again.");
+      setError(err.response?.data?.message || "Failed to create society. Please try again.");
       console.error('Error creating society:', err);
     } finally {
       setLoading(false);

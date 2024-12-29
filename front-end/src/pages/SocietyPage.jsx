@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
-import { societiesApi, eventsApi, usersApi } from "../services/api";
+import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import "./../styles/society-page.css";
 import Accordion from "../components/Accordion";
@@ -11,6 +11,14 @@ import ImageSlider from "../components/ImageSlider";
 
 import img1 from "../assets/02.jpg";
 import img2 from "../assets/03.jpg";
+
+const api = axios.create({
+    baseURL: 'http://localhost:4000',
+    timeout: 5000,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
 
 function SocietyPage() {
     const { id } = useParams();
@@ -35,6 +43,7 @@ function SocietyPage() {
             }
         });
 
+        // Tarihe göre sırala
         upcoming.sort((a, b) => new Date(`${a.startDate}T${a.startTime}`) - new Date(`${b.startDate}T${b.startTime}`));
         past.sort((a, b) => new Date(`${b.startDate}T${b.startTime}`) - new Date(`${a.startDate}T${a.startTime}`));
 
@@ -45,8 +54,8 @@ function SocietyPage() {
         try {
             setLoading(true);
             const [societyResponse, eventsResponse] = await Promise.all([
-                societiesApi.getById(id),
-                eventsApi.getAllBySociety(id)
+                api.get(`/societies/${id}`),
+                api.get(`/events?societyId=${id}`)
             ]);
 
             setSociety(societyResponse.data);
@@ -72,25 +81,25 @@ function SocietyPage() {
                 ? user.followedSocieties.filter(societyId => societyId !== id)
                 : [...(user.followedSocieties || []), id];
 
-            // Update user's followed societies
-            await usersApi.update(user.id, {
+            // Kullanıcı bilgilerini güncelle
+            await api.patch(`/users/${user.id}`, {
                 followedSocieties: updatedFollowedSocieties
             });
 
-            // Update society's follower count
-            await societiesApi.update(id, {
+            // Kulüp takipçi sayısını güncelle
+            await api.patch(`/societies/${id}`, {
                 numberOfFollowers: isFollowing 
                     ? (society.numberOfFollowers - 1) 
                     : (society.numberOfFollowers + 1)
             });
 
-            // Update user context
+            // Context'teki kullanıcı bilgilerini güncelle
             login({
                 ...user,
                 followedSocieties: updatedFollowedSocieties
             });
 
-            // Update local state
+            // UI durumunu güncelle
             setIsFollowing(!isFollowing);
             setSociety(prev => ({
                 ...prev,
@@ -99,8 +108,8 @@ function SocietyPage() {
                     : (prev.numberOfFollowers + 1)
             }));
         } catch (err) {
-            setError('Failed to update follow status. Please try again later.');
             console.error('Error updating follow status:', err);
+            setError('Failed to update follow status. Please try again later.');
         }
     };
 
@@ -156,6 +165,7 @@ function SocietyPage() {
         );
     }
 
+    // Örnek resimler (gerçek uygulamada event'lerin kendi resimleri kullanılmalı)
     const upcomingImages = events.upcoming.length > 0 ? [img1, img2, img2] : [];
     const pastImages = events.past.length > 0 ? [img1, img2, img2] : [];
 
@@ -198,7 +208,7 @@ function SocietyPage() {
                                     <span>{society.numberOfFollowers || 0}</span>
                                 </div>
                             </div>
-                            <button className="follow-button">Sign up</button>
+                            <button className="follow-button">Apply</button>
                             <button 
                                 className={`follow-button ${isFollowing ? 'following' : ''}`}
                                 onClick={handleFollow}
