@@ -1,9 +1,10 @@
+// SocietyCreationForm.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { FaPencilAlt, FaCalendarAlt, FaInstagram, FaFacebook, FaUser, FaEnvelope, FaImage } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import "../styles/society-creation.css";
+import { endpoints } from '../services/api';
 
 const SocietyCreationForm = () => {
   const navigate = useNavigate();
@@ -100,17 +101,17 @@ const SocietyCreationForm = () => {
         questions: []
       };
 
-      // Image upload logic - commented out for now
+      // Image upload logic - Image upload endpoint'i eklendiğinde aktif edilecek
       /*
       if (formData.image) {
         const formDataWithImage = new FormData();
         formDataWithImage.append('image', formData.image);
-        const imageResponse = await axios.post('/api/upload', formDataWithImage);
+        const imageResponse = await endpoints.uploadImage(formDataWithImage);
         societyData.logo = imageResponse.data.url;
       }
       */
 
-      const response = await axios.post('http://localhost:4000/societies', societyData);
+      const response = await endpoints.createSociety(societyData);
       console.log('Society created successfully:', response.data);
       navigate('/societies');
     } catch (err) {

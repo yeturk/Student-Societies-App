@@ -1,9 +1,10 @@
+// PasswordSettings.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import Section from './Section';
 import FormGroup from './FormGroup';
 import Input from './Input';
 import { useAuth } from '../../context/AuthContext';
+import { endpoints } from '../../services/api';
 
 const PasswordSettings = () => {
   const { user } = useAuth();
@@ -35,8 +36,7 @@ const PasswordSettings = () => {
 
     try {
       // Mevcut kullanıcıyı ve şifresini kontrol et
-      const response = await axios.get(`http://localhost:4000/users/${user.id}`);
-      const currentUser = response.data;
+      const { data: currentUser } = await endpoints.getUser(user.id);
 
       if (currentUser.password !== passwords.currentPassword) {
         setError('Current password is incorrect');
@@ -44,7 +44,7 @@ const PasswordSettings = () => {
       }
 
       // Şifreyi güncelle
-      await axios.patch(`http://localhost:4000/users/${user.id}`, {
+      await endpoints.updateUser(user.id, {
         password: passwords.newPassword
       });
 

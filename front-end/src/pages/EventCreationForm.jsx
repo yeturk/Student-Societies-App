@@ -1,8 +1,9 @@
+// EventCreationForm.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { FaPencilAlt, FaMapMarkerAlt, FaUsers, FaAlignLeft, FaCalendarAlt, FaClock, FaImage } from "react-icons/fa";
 import "../styles/event-creation.css";
+import { endpoints } from '../services/api';
 
 const EventCreationForm = () => {
   const navigate = useNavigate();
@@ -101,12 +102,12 @@ const EventCreationForm = () => {
       if (formData.image) {
         const formDataWithImage = new FormData();
         formDataWithImage.append('image', formData.image);
-        const imageResponse = await axios.post('/api/upload', formDataWithImage);
+        const imageResponse = await endpoints.uploadImage(formDataWithImage);
         eventData.imageUrl = imageResponse.data.url;
       }
       */
 
-      const response = await axios.post('http://localhost:4000/events', eventData);
+      const response = await endpoints.createEvent(eventData);
       console.log('Event created successfully:', response.data);
       navigate('/societies/1');
     } catch (err) {

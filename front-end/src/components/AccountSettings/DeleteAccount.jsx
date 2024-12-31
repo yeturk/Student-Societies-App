@@ -1,9 +1,10 @@
+// DeleteAccount.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Section from './Section';
 import FormGroup from './FormGroup';
 import { useAuth } from '../../context/AuthContext';
+import { endpoints } from '../../services/api';
 
 const DeleteAccount = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
@@ -18,7 +19,7 @@ const DeleteAccount = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:4000/users/${user.id}`);
+      await endpoints.deleteUser(user.id);
       logout();
       navigate('/login');
     } catch (err) {

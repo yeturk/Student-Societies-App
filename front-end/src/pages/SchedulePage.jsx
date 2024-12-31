@@ -1,15 +1,8 @@
+// SchedulePage.jsx
 import React from "react";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import "../styles/schedule-page.css";
-
-const api = axios.create({
-    baseURL: "http://localhost:4000/",
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json"
-    }
-});
+import { endpoints } from '../services/api';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 const HOURS = Array.from({ length: 10 }, (_, i) => i + 9); // 9:00 to 18:00
@@ -26,7 +19,7 @@ function SchedulePage() {
     const fetchEvents = async () => {
         try {
             setLoading(true);
-            const { data } = await api.get("events");
+            const { data } = await endpoints.getEvents();
             setEvents(data);
             setError(null);
         } catch (err) {

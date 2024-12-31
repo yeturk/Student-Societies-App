@@ -1,21 +1,14 @@
+// SocietyPage.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaInstagram } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
-import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import "./../styles/society-page.css";
 import Accordion from "../components/Accordion";
 import ImageSlider from "../components/ImageSlider";
-
-const api = axios.create({
-    baseURL: 'http://localhost:4000',
-    timeout: 5000,
-    headers: {
-        'Content-Type': 'application/json'
-    }
-});
+import { endpoints } from '../services/api';
 
 function SocietyPage() {
     const { id } = useParams();
@@ -58,12 +51,13 @@ function SocietyPage() {
         try {
             setLoading(true);
             const [societyResponse, eventsResponse] = await Promise.all([
-                api.get(`/societies/${id}`),
-                api.get(`/events?societyId=${id}`)
+                endpoints.getSociety(id),
+                endpoints.getEvents()
             ]);
 
             setSociety(societyResponse.data);
-            const categorizedEvents = categorizeEvents(eventsResponse.data);
+            const filteredEvents = eventsResponse.data.filter(event => event.societyId === id);
+            const categorizedEvents = categorizeEvents(filteredEvents);
             setEvents(categorizedEvents);
             setError(null);
         } catch (err) {
@@ -86,12 +80,12 @@ function SocietyPage() {
                 : [...(user.followedSocieties || []), id];
 
             // Kullanıcı bilgilerini güncelle
-            await api.patch(`/users/${user.id}`, {
+            await endpoints.updateUser(user.id, {
                 followedSocieties: updatedFollowedSocieties
             });
 
             // Kulüp takipçi sayısını güncelle
-            await api.patch(`/societies/${id}`, {
+            await endpoints.updateSociety(id, {
                 numberOfFollowers: isFollowing 
                     ? (society.numberOfFollowers - 1) 
                     : (society.numberOfFollowers + 1)

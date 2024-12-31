@@ -6,23 +6,15 @@ import "../styles/homepage.css";
 import Societies from "../components/Societies";
 import ImageSlider from "../components/ImageSlider";
 import EventList from "../components/EventList";
-import axios from "axios";
-
-const api = axios.create({
-    baseURL: "http://localhost:4000",
-    timeout: 5000,
-    headers: {
-        "Content-Type": "application/json",
-    },
-});
+import { endpoints } from '../services/api';
 
 function Homepage() {
     const { user } = useAuth();
     const [followedSocieties, setFollowedSocieties] = useState([]);
     const [popularSocieties, setPopularSocieties] = useState([]);
     const [allSocieties, setAllSocieties] = useState([]);
-    const [upcomingEventsData, setUpcomingEventsData] = useState([]); // Tam event verileri
-    const [pastEventsData, setPastEventsData] = useState([]); // Tam event verileri
+    const [upcomingEventsData, setUpcomingEventsData] = useState([]); 
+    const [pastEventsData, setPastEventsData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -43,7 +35,7 @@ function Homepage() {
 
     const fetchEvents = async () => {
         try {
-            const { data } = await api.get("/events");
+            const { data } = await endpoints.getEvents();
             const currentDate = new Date();
 
             const upcoming = [];
@@ -77,7 +69,7 @@ function Homepage() {
     const fetchSocieties = async () => {
         try {
             setLoading(true);
-            const { data } = await api.get("/societies");
+            const { data } = await endpoints.getSocieties();
             setAllSocieties(data);
 
             if (user && user.followedSocieties) {
