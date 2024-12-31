@@ -1,3 +1,4 @@
+// Homepage.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -6,9 +7,6 @@ import Societies from "../components/Societies";
 import ImageSlider from "../components/ImageSlider";
 import EventList from "../components/EventList";
 import axios from "axios";
-
-import img1 from "../assets/02.jpg";
-import img2 from "../assets/03.jpg";
 
 const api = axios.create({
     baseURL: "http://localhost:4000",
@@ -23,15 +21,16 @@ function Homepage() {
     const [followedSocieties, setFollowedSocieties] = useState([]);
     const [popularSocieties, setPopularSocieties] = useState([]);
     const [allSocieties, setAllSocieties] = useState([]);
+    const [upcomingEventsData, setUpcomingEventsData] = useState([]); // Tam event verileri
+    const [pastEventsData, setPastEventsData] = useState([]); // Tam event verileri
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const MAX_SOCIETIES = 5;
-    const upcomingEvents = [img1, img2, img2];
-    const pastEvents = [img1, img2, img2];
 
     useEffect(() => {
         fetchSocieties();
+        fetchEvents();
     }, [user]);
 
     const sortByFollowers = (societies) => {
@@ -40,6 +39,39 @@ function Homepage() {
             const numberOfFollowersB = Number(b.numberOfFollowers) || 0;
             return numberOfFollowersB - numberOfFollowersA;
         });
+    };
+
+    const fetchEvents = async () => {
+        try {
+            const { data } = await api.get("/events");
+            const currentDate = new Date();
+
+            const upcoming = [];
+            const past = [];
+
+            data.forEach(event => {
+                const eventDate = new Date(event.startDate);
+                const eventWithImage = {
+                    ...event,
+                    imageUrl: event.image || `https://picsum.photos/800/400?random=${event.id}`
+                };
+
+                if (eventDate > currentDate) {
+                    upcoming.push(eventWithImage);
+                } else {
+                    past.push(eventWithImage);
+                }
+            });
+
+            // Tarihe göre sırala
+            upcoming.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+            past.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
+            setUpcomingEventsData(upcoming);
+            setPastEventsData(past);
+        } catch (err) {
+            console.error("Error fetching events:", err);
+        }
     };
 
     const fetchSocieties = async () => {
@@ -97,16 +129,22 @@ function Homepage() {
             </div>
             <div className="homepage-middle homepage-section">
                 <div className="middle-container">
-                    {upcomingEvents && upcomingEvents.length > 0 && (
+                    {upcomingEventsData.length > 0 && (
                         <div className="slider-section">
                             <h2 className="slider-title">Upcoming Events</h2>
-                            <ImageSlider images={upcomingEvents} />
+                            <ImageSlider 
+                                events={upcomingEventsData} 
+                                isUpcoming={true}
+                            />
                         </div>
                     )}
-                    {pastEvents && pastEvents.length > 0 && (
+                    {pastEventsData.length > 0 && (
                         <div className="slider-section">
                             <h2 className="slider-title">Past Events</h2>
-                            <ImageSlider images={pastEvents} />
+                            <ImageSlider 
+                                events={pastEventsData}
+                                isUpcoming={false}
+                            />
                         </div>
                     )}
                 </div>

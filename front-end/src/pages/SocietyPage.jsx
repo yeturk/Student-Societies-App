@@ -9,9 +9,6 @@ import "./../styles/society-page.css";
 import Accordion from "../components/Accordion";
 import ImageSlider from "../components/ImageSlider";
 
-import img1 from "../assets/02.jpg";
-import img2 from "../assets/03.jpg";
-
 const api = axios.create({
     baseURL: 'http://localhost:4000',
     timeout: 5000,
@@ -28,6 +25,13 @@ function SocietyPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isFollowing, setIsFollowing] = useState(false);
+
+    const prepareEventForSlider = (event) => {
+        return {
+            ...event,
+            imageUrl: event.image || `https://picsum.photos/800/400?random=${event.id}`
+        };
+    };
 
     const categorizeEvents = (events) => {
         const now = new Date();
@@ -165,10 +169,6 @@ function SocietyPage() {
         );
     }
 
-    // Örnek resimler (gerçek uygulamada event'lerin kendi resimleri kullanılmalı)
-    const upcomingImages = events.upcoming.length > 0 ? [img1, img2, img2] : [];
-    const pastImages = events.past.length > 0 ? [img1, img2, img2] : [];
-
     return (
         <div className="society-page-container">
             <section className="body">
@@ -223,9 +223,12 @@ function SocietyPage() {
                     {events.upcoming.length > 0 && (
                         <div className="slider-section">
                             <h2 className="slider-title">Upcoming Events</h2>
-                            <ImageSlider images={upcomingImages} />
+                            <ImageSlider 
+                                events={events.upcoming.map(prepareEventForSlider)}
+                                isUpcoming={true}
+                            />
                             <div className="events-info">
-                                {events.upcoming.map((event, index) => (
+                                {events.upcoming.map((event) => (
                                     <div key={event.id} className="event-info">
                                         <h3>{event.title}</h3>
                                         <p>{event.description}</p>
@@ -241,9 +244,12 @@ function SocietyPage() {
                     {events.past.length > 0 && (
                         <div className="slider-section">
                             <h2 className="slider-title">Past Events</h2>
-                            <ImageSlider images={pastImages} />
+                            <ImageSlider 
+                                events={events.past.map(prepareEventForSlider)}
+                                isUpcoming={false}
+                            />
                             <div className="events-info">
-                                {events.past.map((event, index) => (
+                                {events.past.map((event) => (
                                     <div key={event.id} className="event-info">
                                         <h3>{event.title}</h3>
                                         <p>{event.description}</p>

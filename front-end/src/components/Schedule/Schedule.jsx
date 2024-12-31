@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+// Schedule.jsx
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { TimeColumn } from "./TimeColumn";
 import { DayColumn } from "./DayColumn";
 import { EventPopup } from "./EventPopup";
 import useEvents from "./useEvents";
 import "../../styles/schedule-page.css";
 
+// Haftanın günlerini tanımla
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const Schedule = () => {
-    const { loading, error, fetchEvents } = useEvents();
+    const { events, loading, error, fetchEvents } = useEvents();
     const [selectedEvent, setSelectedEvent] = useState(null);
+    const location = useLocation();
+
+    useEffect(() => {
+        // Homepage'den gelen event bilgisini kontrol et
+        if (location.state?.selectedEvent && location.state?.showEventPopup) {
+            setSelectedEvent(location.state.selectedEvent);
+        }
+    }, [location]);
 
     if (loading) {
-        return (
-            <div className="schedule-container">
-                <div className="loading-spinner">Loading events...</div>
-            </div>
-        );
+        return <div className="loading-spinner">Loading events...</div>;
     }
 
     if (error) {
@@ -32,7 +39,7 @@ const Schedule = () => {
 
     return (
         <div className="schedule-container">
-            <h1>Schedule Template</h1>
+            <h1>Schedule</h1>
             <div className="schedule-grid">
                 <TimeColumn />
                 {DAYS.map(day => (
