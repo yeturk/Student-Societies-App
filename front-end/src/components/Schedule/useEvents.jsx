@@ -1,15 +1,6 @@
 // useEvents.js
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { EVENT_TYPES } from './eventConstants';
-
-const api = axios.create({
-    baseURL: "http://localhost:4000/",
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json"
-    }
-});
+import { endpoints } from '../../services/api';
 
 const useEvents = () => {
     const [events, setEvents] = useState([]);
@@ -20,7 +11,7 @@ const useEvents = () => {
     const fetchEvents = async () => {
         try {
             setLoading(true);
-            const { data } = await api.get("events");
+            const { data } = await endpoints.getEvents();
             setEvents(data);
             
             const groupedEvents = data.reduce((acc, event) => {

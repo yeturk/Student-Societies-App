@@ -7,7 +7,18 @@ import { useAuth } from "../../context/AuthContext";
 
 const GeneralSettings = () => {
   const { user } = useAuth();
-  console.log(user);
+
+  // Role'ü daha okunabilir formata çevirme
+  const formatRole = (role) => {
+    switch(role) {
+      case 'society-leader':
+        return 'Society President';
+      case 'admin':
+        return 'Administrator';
+      default:
+        return 'Member';
+    }
+  };
 
   return (
     <Section>
@@ -26,7 +37,7 @@ const GeneralSettings = () => {
 
       <FormGroup label="Role">
         <Input
-          defaultValue={user?.role || "N/A"}
+          defaultValue={formatRole(user?.role) || "N/A"}
           disabled
           className="account-settings-form-input opacity-75 cursor-not-allowed"
         />
