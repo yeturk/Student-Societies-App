@@ -1,0 +1,1 @@
+web: java -jar target/software_project-0.0.1-SNAPSHOT.jar
