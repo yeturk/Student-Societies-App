@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 public interface IEventController {
 	
 	public DtoEvent saveEvent(@Valid DtoEventIU dtoEventIU);
+	public String home();
 	public List<DtoEvent> getAllEvents();
 	public void deleteEvent(Integer eventId);
 	public DtoEvent getEventByID(Integer Id);

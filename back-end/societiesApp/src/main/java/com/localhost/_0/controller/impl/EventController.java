@@ -21,12 +21,18 @@ import jakarta.validation.Valid;
 
 
 @RestController
-@RequestMapping("/rest/api/event")
+@RequestMapping("/")
 public class EventController implements IEventController {
 	
 	@Autowired
 	private IEventService eventService;
-	
+
+	@Override
+	@GetMapping
+	public String home()
+	{
+		return "welcome to the societiesApp!";
+	}
 	@Override
 	@PostMapping (path = "/save")
 	public DtoEvent saveEvent(@Valid @RequestBody DtoEventIU dtoEventIU)
