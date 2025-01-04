@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Societies Report</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Societies Report</h1>
+        </header>
+
+        <!-- Summary Metrics -->
+        <section class="metrics">
+            <div class="metric-box">
+                <h2>Total Users</h2>
+                <p>1,205</p>
+            </div>
+            <div class="metric-box">
+                <h2>Total Societies</h2>
+                <p>34</p>
+            </div>
+            <div class="metric-box">
+                <h2>Total Events</h2>
+                <p>128</p>
+            </div>
+        </section>
+
+        <!-- Rankings Table -->
+        <section class="rankings">
+            <h2>Society Rankings</h2>
+            <table id="societyTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Society Name</th>
+                        <th onclick="sortTable(1)">Event Count</th>
+                        <th onclick="sortTable(2)">Follower Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Music Club</td>
+                        <td>15</td>
+                        <td>450</td>
+                    </tr>
+                    <tr>
+                        <td>Tech Society</td>
+                        <td>20</td>
+                        <td>380</td>
+                    </tr>
+                    <tr>
+                        <td>Art Guild</td>
+                        <td>8</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                        <td>Sports League</td>
+                        <td>25</td>
+                        <td>300</td>
+                    </tr>
+                    <tr>
+                        <td>Drama Club</td>
+                        <td>12</td>
+                        <td>600</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.getElementById("societyTable");
+            const rows = Array.from(table.rows).slice(1); // Skip header row
+            let sortedRows;
+
+            sortedRows = rows.sort((rowA, rowB) => {
+                const cellA = rowA.cells[columnIndex].innerText.trim();
+                const cellB = rowB.cells[columnIndex].innerText.trim();
+
+                // Sort numerically if column is Event Count or Follower Count
+                return !isNaN(cellA) && !isNaN(cellB)
+                    ? cellA - cellB
+                    : cellA.localeCompare(cellB);
+            });
+
+            // Clear existing rows and append sorted ones
+            table.tBodies[0].innerHTML = "";
+            sortedRows.forEach(row => table.tBodies[0].appendChild(row));
+        }
+    </script>
+</body>
+</html>
