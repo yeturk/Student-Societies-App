@@ -8,6 +8,7 @@ com\project\services\ICommunityService.class
 com\project\dto\DtoLogin.class
 com\project\dto\DtoMultipleEmail.class
 com\project\dto\DtoCommunityIU.class
+com\project\config\CorsConfig.class
 com\project\exception\GlobalExceptionHandler.class
 com\project\dto\DtoCommunity.class
 com\project\entities\Community.class

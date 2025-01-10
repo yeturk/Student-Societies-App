@@ -8,15 +8,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**") 
+        registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:5173",
                         "http://localhost:4173",
-                        "http://16.171.161.26",
-                        "http://16.171.161.26:8080",
-                        "http://16.171.161.26:8081"
+                        "http://13.48.59.18",
+                        "http://13.48.59.18:8081",
+                        // S3 bucket URL'si
+                        "http://societies-app.s3-website.eu-north-1.amazonaws.com"
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
-                .allowedHeaders("*");
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
