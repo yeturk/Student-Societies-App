@@ -22,7 +22,7 @@
         const prepareEventForSlider = (event) => {
             return {
                 ...event,
-                imageUrl: event.image || `https://picsum.photos/800/400?random=${event.id}`
+                imageUrl: event.poster || `https://picsum.photos/800/400?random=${event.id}`
             };
         };
 

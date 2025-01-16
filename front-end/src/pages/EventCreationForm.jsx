@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPencilAlt, FaMapMarkerAlt, FaUsers, FaAlignLeft, FaCalendarAlt, FaClock, FaImage } from "react-icons/fa";
 import "../styles/event-creation.css";
-import { endpoints, transformEventForBackend } from "../services/api";
+import { endpoints } from "../services/api";
 
 const EventCreationForm = () => {
 	const navigate = useNavigate();
@@ -18,8 +18,9 @@ const EventCreationForm = () => {
 		endDate: "",
 		endTime: "",
 		type: "",
-		guest: "", // Changed from guests to guest to match backend
-		image: null,
+		guest: "",
+		societyID: 1,
+		poster: null,
 	});
 
 	const [imagePreview, setImagePreview] = useState(null);
@@ -62,7 +63,7 @@ const EventCreationForm = () => {
 
 			setFormData({
 				...formData,
-				image: file,
+				poster: file, // image yerine poster olarak kaydediyoruz
 			});
 
 			const reader = new FileReader();
@@ -83,26 +84,34 @@ const EventCreationForm = () => {
 
 		setLoading(true);
 		try {
-			// Create event data in the correct JSON format
-			const eventData = {
-				title: formData.title,
-				description: formData.description,
-				location: formData.location,
-				startDate: formData.startDate,
-				startTime: formData.startTime,
-				endDate: formData.endDate,
-				endTime: formData.endTime,
-				societyID: 1,
-				guest: formData.guest,
-				type: formData.type
-			};
+			// Form data oluştur
+			const formDataToSend = new FormData();
 
-			// Send the JSON data to the API
-			const response = await endpoints.createEventWithImage(eventData);
-			console.log('Event created successfully:', response.data);
-			navigate('/societies/1');
+			// Event verilerini doğrudan ekle
+			formDataToSend.append("title", formData.title);
+			formDataToSend.append("description", formData.description);
+			formDataToSend.append("location", formData.location);
+			formDataToSend.append("startDate", formData.startDate);
+			formDataToSend.append("startTime", formData.startTime);
+			formDataToSend.append("endDate", formData.endDate);
+			formDataToSend.append("endTime", formData.endTime);
+			formDataToSend.append("societyID", "1");
+			formDataToSend.append("type", formData.type);
+
+			if (formData.guest) {
+				formDataToSend.append("guest", formData.guest);
+			}
+
+			// Resim varsa poster olarak ekle
+			if (formData.image) {
+				formDataToSend.append("poster", formData.image);
+			}
+
+			const response = await endpoints.createEventWithImage(formDataToSend);
+			console.log("Event created successfully:", response.data);
+			navigate("/societies/1");
 		} catch (err) {
-			console.error('Error creating event:', err.response?.data || err);
+			console.error("Error creating event:", err.response?.data || err);
 			setError(err.response?.data?.message || "Failed to create event. Please try again.");
 		} finally {
 			setLoading(false);
@@ -148,7 +157,7 @@ const EventCreationForm = () => {
 									<input
 										type="file"
 										id="event-image"
-										name="image"
+										name="poster" // image yerine poster
 										accept="image/*"
 										onChange={handleImageChange}
 										className="file-input"

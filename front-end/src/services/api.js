@@ -335,22 +335,18 @@ const endpoints = {
 	},
 
 	createEvent: async (data) => {
-		if (!isProd) {
-			return eventApi.post(paths.events, data);
-		}
+        if (!isProd) {
+            return eventApi.post(paths.events, data);
+        }
 
-		const config = {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-
-		const response = await eventApi.post(paths.events.save, data, config);
-		return {
-			...response,
-			data: response.data,
-		};
-	},
+        try {
+            const response = await eventApi.post(paths.events.save, data);
+            return response;
+        } catch (error) {
+            console.error('Error creating event:', error);
+            throw error;
+        }
+    },
 
 	deleteEvent: (id) => {
 		if (!isProd) {
@@ -381,19 +377,18 @@ const endpoints = {
 		if (!isProd) {
 			return eventApi.post(paths.events, formData);
 		}
-
-		// FormData ile istek gönderirken özel headers ayarla
-		const config = {
-			headers: {
-				"Content-Type": "multipart/form-data",
-			},
-		};
-
-		const response = await eventApi.post(paths.events.save, formData, config);
-		return {
-			...response,
-			data: response.data,
-		};
+	
+		try {
+			const response = await eventApi.post(paths.events.save, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+			});
+			return response;
+		} catch (error) {
+			console.error('Error uploading event with image:', error);
+			throw error;
+		}
 	},
 };
 

@@ -1,4 +1,3 @@
-// AllSocietiesPage.jsx
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import { NavLink, useSearchParams } from "react-router-dom";
@@ -18,6 +17,8 @@ function AllSocietiesPage() {
     const [allSocieties, setAllSocieties] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [selectedSociety, setSelectedSociety] = useState(null);
 
     useEffect(() => {
         fetchSocieties();
@@ -38,6 +39,28 @@ function AllSocietiesPage() {
             console.error('Error fetching societies:', err);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleDeleteClick = (society, e) => {
+        e.preventDefault(); // Link'in çalışmasını engelle
+        e.stopPropagation(); // Event'in parent elementlere yayılmasını engelle
+        setSelectedSociety(society);
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (!selectedSociety) return;
+        
+        try {
+            await endpoints.deleteSociety(selectedSociety.id);
+            setShowDeleteModal(false);
+            setSelectedSociety(null);
+            await fetchSocieties(); // Listeyi yenile
+            setError(null);
+        } catch (err) {
+            console.error('Error deleting society:', err);
+            setError('Failed to delete society. Please try again later.');
         }
     };
 
@@ -100,7 +123,7 @@ function AllSocietiesPage() {
     }
 
     const filteredSocieties = getFilteredSocieties();
-   
+
     return (
         <div>
             <section className="body">
@@ -139,21 +162,66 @@ function AllSocietiesPage() {
                             timeout={500}
                             classNames="society-item"
                         >
-                            <li>
-                            <NavLink to={`/societies/${society.id}`}>
-                                <SocietyMini 
-                                    className="society-item" 
-                                    name={society.name} 
-                                    description={society.description} 
-                                    isFollowing={user?.followedSocieties?.includes(society.id)}
-                                />
-                            </NavLink>
+                            <li className="society-wrapper">
+                                <NavLink to={`/societies/${society.id}`}>
+                                    <SocietyMini 
+                                        className="society-item" 
+                                        name={society.name} 
+                                        description={society.description} 
+                                        isFollowing={user?.followedSocieties?.includes(society.id)}
+                                    />
+                                </NavLink>
+                                {user?.role === 'admin' && (
+                                    <div className="society-actions">
+                                        <NavLink 
+                                            to={`/societies/edit/${society.id}`} 
+                                            className="edit-button"
+                                            onClick={(e) => e.stopPropagation()}
+                                        >
+                                            Edit
+                                        </NavLink>
+                                        <button 
+                                            className="delete-button"
+                                            onClick={(e) => handleDeleteClick(society, e)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
                             </li>
                         </CSSTransition>
                     ))}
                     </TransitionGroup>
                 </div>
             </section>
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2>Confirm Delete</h2>
+                        <p>Are you sure you want to delete {selectedSociety?.name}?</p>
+                        <p>This action cannot be undone.</p>
+                        <div className="modal-actions">
+                            <button 
+                                className="cancel-button"
+                                onClick={() => {
+                                    setShowDeleteModal(false);
+                                    setSelectedSociety(null);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button 
+                                className="confirm-delete-button"
+                                onClick={handleDeleteConfirm}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
