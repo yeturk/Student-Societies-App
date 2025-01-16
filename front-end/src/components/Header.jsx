@@ -48,28 +48,34 @@ function Header() {
                         </button>
                     </>
                 );
-            case 'society-leader':
-                // Find the society the user is leading
-                const leadingSocietyId = user.leadingSocietyId; // Assume this is added to user object
-                return (
-                    <>
-                        <NavLink to="/profile" className="dropdown-item">
-                            My Profile
-                        </NavLink>
-                        <NavLink to="/settings" className="dropdown-item">
-                            Settings
-                        </NavLink>
-                        <NavLink 
-                            to={`/create-event?societyId=${leadingSocietyId}`} 
-                            className="dropdown-item"
-                        >
-                            <FaPlus className="dropdown-icon" /> Create Event for My Society
-                        </NavLink>
-                        <button onClick={handleLogout} className="dropdown-item logout-button">
-                            Logout
-                        </button>
-                    </>
-                );
+                case 'society-leader':
+                    // Find the society the user is leading
+                    const leadingSocietyId = user.leadingSocietyId; // Assume this is added to user object
+                    return (
+                        <>
+                            <NavLink to="/profile" className="dropdown-item">
+                                My Profile
+                            </NavLink>
+                            <NavLink 
+                                to={`/society/${leadingSocietyId}/manage`} 
+                                className="dropdown-item"
+                            >
+                                My Society
+                            </NavLink>
+                            <NavLink to="/settings" className="dropdown-item">
+                                Settings
+                            </NavLink>
+                            <NavLink 
+                                to={`/create-event?societyId=${leadingSocietyId}`} 
+                                className="dropdown-item"
+                            >
+                                <FaPlus className="dropdown-icon" /> Create Event for My Society
+                            </NavLink>
+                            <button onClick={handleLogout} className="dropdown-item logout-button">
+                                Logout
+                            </button>
+                        </>
+                    );
             default: // For regular users
                 return (
                     <>

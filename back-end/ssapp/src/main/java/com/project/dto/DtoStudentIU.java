@@ -1,38 +1,65 @@
 package com.project.dto;
 
 import java.util.List;
+import com.project.entities.Community;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class DtoStudentIU {
-	
-	@NotEmpty
-	@Size(min = 3, max = 25)
-	private String name;
-	
-	@NotEmpty
-	@Email
-	private String email;
-	
-	@NotEmpty
-	@Size(min = 4, max = 15)
-	private String password;
-	
-	private String department;
+    private Integer id;
+    private String name;
+    private String email;
+    private String password;
+    private String department;
+    private List<Community> communities;
 
-    @NotEmpty
-    private String role;
+    // Default constructor
+    public DtoStudentIU() {}
 
-    private Boolean notificationOpenForEmail;
+    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
 
-    private List<Integer> followedSocieties;
-	
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public List<Community> getCommunities() {
+        return communities;
+    }
+
+    public void setCommunities(List<Community> communities) {
+        this.communities = communities;
+    }
 }

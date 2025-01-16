@@ -1,11 +1,9 @@
-// SchedulePage.jsx
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/schedule-page.css";
 import { endpoints } from '../services/api';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-const HOURS = Array.from({ length: 10 }, (_, i) => i + 9); // 9:00 to 18:00
+const HOURS = Array.from({ length: 13 }, (_, i) => i + 9); // 9:00 to 21:00
 
 function SchedulePage() {
     const [events, setEvents] = useState([]);
@@ -16,43 +14,122 @@ function SchedulePage() {
         fetchEvents();
     }, []);
 
+    // Tarihin bugünden sonraki 7 gün içinde olup olmadığını kontrol et
+    const isWithinNextWeek = (dateString) => {
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+    
+        const nextWeek = new Date(currentDate);
+        nextWeek.setDate(currentDate.getDate() + 7);
+    
+        const eventDate = new Date(dateString);
+        eventDate.setHours(0, 0, 0, 0);
+    
+        console.log('Date check:', {
+            eventDateString: dateString,
+            currentDate: currentDate.toISOString(),
+            nextWeek: nextWeek.toISOString(),
+            eventDate: eventDate.toISOString(),
+            isWithin: eventDate >= currentDate && eventDate <= nextWeek
+        });
+    
+        return eventDate >= currentDate && eventDate <= nextWeek;
+    };
+
     const fetchEvents = async () => {
         try {
             setLoading(true);
-            const { data } = await endpoints.getEvents();
-            setEvents(data);
-            setError(null);
+            const response = await endpoints.getEvents();
+            console.log('All events:', response.data); 
+    
+            // Şu anki tarihi yazdıralım
+            const now = new Date();
+            console.log('Current date:', now.toISOString());
+    
+            // Önümüzdeki 7 gün içindeki etkinlikleri filtrele
+            const nextWeekEvents = response.data.filter(event => {
+                const isWithin = isWithinNextWeek(event.startDate);
+                console.log(`Event ${event.title} on ${event.startDate} is within next week: ${isWithin}`);
+                return isWithin;
+            });
+    
+            console.log('Filtered events:', nextWeekEvents);
+            setEvents(nextWeekEvents);
         } catch (err) {
-            setError(`Failed to load events: ${err.message}`);
             console.error("Error fetching events:", err);
+            setError("Failed to load events");
         } finally {
             setLoading(false);
         }
     };
 
-    if (loading) {
-        return <div className="loading-spinner">Loading events...</div>;
-    }
+    const formatTime = (timeString) => {
+        if (!timeString) return '';
+        return timeString.substring(0, 5);
+    };
 
-    if (error) {
-        return (
-            <div className="schedule-container">
-                <p className="error-message">{error}</p>
-                <button onClick={fetchEvents} className="retry-button">
-                    Try Again
-                </button>
-            </div>
-        );
-    }
+    const getDayOfWeek = (dateString) => {
+        const date = new Date(dateString);
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        return days[date.getDay()];
+    };
+
+    const calculateEventPosition = (timeString) => {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        const startHour = 9;
+        const pixelsPerHour = 60;
+        const pixelsPerMinute = 1;
+        
+        const minutesSinceStart = (hours - startHour) * 60 + minutes;
+        return `${minutesSinceStart * pixelsPerMinute}px`;
+    };
+
+    const calculateEventHeight = (startTime, endTime) => {
+        const [startHours, startMinutes] = startTime.split(':').map(Number);
+        const [endHours, endMinutes] = endTime.split(':').map(Number);
+        
+        const durationMinutes = (endHours - startHours) * 60 + (endMinutes - startMinutes);
+        return `${Math.max(durationMinutes, 30)}px`;
+    };
+
+    const renderEvents = (day) => {
+        return events
+            .filter(event => getDayOfWeek(event.startDate) === day)
+            .map((event, index) => {
+                const startTime = formatTime(event.startTime);
+                const endTime = formatTime(event.endTime);
+                const eventType = event.type?.toLowerCase() || 'default';
+
+                return (
+                    <div
+                        key={event.id || index}
+                        className={`event ${eventType}-event`}
+                        style={{
+                            top: calculateEventPosition(startTime),
+                            height: calculateEventHeight(startTime, endTime)
+                        }}
+                    >
+                        <div className="event-title">{event.title}</div>
+                        <div className="event-time">
+                            {startTime} - {endTime}
+                        </div>
+                        <div className="event-location">{event.location}</div>
+                    </div>
+                );
+            });
+    };
+
+    if (loading) return <div className="loading">Loading events...</div>;
+    if (error) return <div className="error">{error}</div>;
 
     return (
         <div className="schedule-container">
-            <h1>Schedule Template</h1>
+            <h1>Weekly Schedule</h1>
             <div className="schedule-grid">
                 <div className="time-column">
                     {HOURS.map(hour => (
                         <div key={hour} className="time-slot">
-                            {`${hour}:00`}
+                            {`${hour.toString().padStart(2, '0')}:00`}
                         </div>
                     ))}
                 </div>
@@ -61,103 +138,7 @@ function SchedulePage() {
                     <div key={day} className="day-column">
                         <div className="day-header">{day}</div>
                         <div className="events-container">
-                            {/* Monday Events */}
-                            {day === 'Monday' && (
-                                <>
-                                    <div className="event abs-circuit" style={{ top: '65px', height: '85px' }}>
-                                        <span>09:30 - 10:30</span>
-                                        <span>Abs Circuit</span>
-                                    </div>
-                                    <div className="event rowing-workout" style={{ top: '135px', height: '85px' }}>
-                                        <span>11:00 - 12:30</span>
-                                        <span>Rowing Workout</span>
-                                    </div>
-                                    <div className="event yoga-level-1" style={{ top: '305px', height: '85px' }}>
-                                        <span>14:00 - 15:15</span>
-                                        <span>Yoga Level 1</span>
-                                    </div>
-                                </>
-                            )}
-                            {/* Tuesday Events */}
-                            {day === 'Tuesday' && (
-                                <>
-                                    <div className="event rowing-workout" style={{ top: '65px', height: '85px' }}>
-                                        <span>10:00 - 11:00</span>
-                                        <span>Rowing Workout</span>
-                                    </div>
-                                    <div className="event restorative-yoga" style={{ top: '135px', height: '85px' }}>
-                                        <span>11:30 - 13:00</span>
-                                        <span>Restorative Yoga</span>
-                                    </div>
-                                    <div className="event abs-circuit" style={{ top: '275px', height: '85px' }}>
-                                        <span>13:30 - 15:00</span>
-                                        <span>Abs Circuit</span>
-                                    </div>
-                                    <div className="event yoga-level-1" style={{ top: '395px', height: '85px' }}>
-                                        <span>15:00 - 16:45</span>
-                                        <span>Yoga Level 1</span>
-                                    </div>
-                                </>
-                            )}
-                            {/* Wednesday Events */}
-                            {day === 'Wednesday' && (
-                                <>
-                                    <div className="event restorative-yoga" style={{ top: '5px', height: '85px' }}>
-                                        <span>09:00 - 10:15</span>
-                                        <span>Restorative Yoga</span>
-                                    </div>
-                                    <div className="event yoga-level-1" style={{ top: '135px', height: '85px' }}>
-                                        <span>10:45 - 11:45</span>
-                                        <span>Yoga Level 1</span>
-                                    </div>
-                                    <div className="event rowing-workout" style={{ top: '185px', height: '85px' }}>
-                                        <span>12:00 - 13:45</span>
-                                        <span>Rowing Workout</span>
-                                    </div>
-                                    <div className="event yoga-level-1" style={{ top: '275px', height: '85px' }}>
-                                        <span>13:45 - 15:00</span>
-                                        <span>Yoga Level 1</span>
-                                    </div>
-                                </>
-                            )}
-                            {/* Thursday Events */}
-                            {day === 'Thursday' && (
-                                <>
-                                    <div className="event abs-circuit" style={{ top: '65px', height: '85px' }}>
-                                        <span>09:30 - 10:30</span>
-                                        <span>Abs Circuit</span>
-                                    </div>
-                                    <div className="event restorative-yoga" style={{ top: '185px', height: '85px' }}>
-                                        <span>12:00 - 13:45</span>
-                                        <span>Restorative Yoga</span>
-                                    </div>
-                                    <div className="event abs-circuit" style={{ top: '395px', height: '85px' }}>
-                                        <span>15:30 - 16:30</span>
-                                        <span>Abs Circuit</span>
-                                    </div>
-                                    <div className="event rowing-workout" style={{ top: '485px', height: '85px' }}>
-                                        <span>17:00 - 18:30</span>
-                                        <span>Rowing Workout</span>
-                                    </div>
-                                </>
-                            )}
-                            {/* Friday Events */}
-                            {day === 'Friday' && (
-                                <>
-                                    <div className="event rowing-workout" style={{ top: '65px', height: '85px' }}>
-                                        <span>10:00 - 11:00</span>
-                                        <span>Rowing Workout</span>
-                                    </div>
-                                    <div className="event abs-circuit" style={{ top: '215px', height: '85px' }}>
-                                        <span>12:30 - 14:00</span>
-                                        <span>Abs Circuit</span>
-                                    </div>
-                                    <div className="event yoga-level-1" style={{ top: '395px', height: '85px' }}>
-                                        <span>15:45 - 16:45</span>
-                                        <span>Yoga Level 1</span>
-                                    </div>
-                                </>
-                            )}
+                            {renderEvents(day)}
                         </div>
                     </div>
                 ))}

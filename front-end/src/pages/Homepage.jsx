@@ -71,16 +71,17 @@ function Homepage() {
             setLoading(true);
             const { data } = await endpoints.getSocieties();
             setAllSocieties(data);
-
+    
             if (user && user.followedSocieties) {
+                // IMPORTANT: Convert society.id to string for comparison
                 const followedSocietiesData = data.filter(society => 
-                    user.followedSocieties.includes(society.id)
+                    user.followedSocieties.includes(society.id.toString())
                 );
                 setFollowedSocieties(sortByFollowers(followedSocietiesData).slice(0, MAX_SOCIETIES));
             } else {
                 setFollowedSocieties([]);
             }
-
+    
             setPopularSocieties(sortByFollowers(data).slice(0, MAX_SOCIETIES));
             setError(null);
         } catch (err) {
