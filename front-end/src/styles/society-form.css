@@ -1,0 +1,209 @@
+.society-form-container {
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    color: #333;
+    max-width: 38em;
+    padding: 1em 3em 2em 3em;
+    margin: 2em auto;
+    background-color: #fff;
+    border-radius: 4.2px;
+    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+}
+
+.society-form-container h1 {
+    color: #7494ec;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Form sections */
+.society-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: #666;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1em;
+    line-height: 1.4;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 3px;
+    transition: 0.35s ease-in-out;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: 0;
+    border-color: #7494ec;
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Questions section */
+.questions-section {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.questions-section h3 {
+    color: #7494ec;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.question-group {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+/* Buttons */
+.add-question-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #7494ec;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1rem;
+}
+
+.add-question-button:hover {
+    background-color: #5880e5;
+}
+
+.remove-question-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    transition: all 0.3s ease;
+}
+
+.remove-question-button:hover {
+    background-color: #c82333;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.cancel-button,
+.submit-button {
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.cancel-button {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.submit-button {
+    background-color: #7494ec;
+    color: white;
+    border: none;
+}
+
+.cancel-button:hover {
+    background-color: #5a6268;
+}
+
+.submit-button:hover {
+    background-color: #5880e5;
+}
+
+/* Loading and Error states */
+.loading,
+.error-container {
+    text-align: center;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 38em;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 3px 10px -2px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+    color: #dc3545;
+    margin-bottom: 1rem;
+}
+
+.retry-button {
+    background-color: #7494ec;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.retry-button:hover {
+    background-color: #5880e5;
+}
+
+/* Responsive */
+@media only screen and (max-width: 540px) {
+    .society-form-container {
+        padding: 1em;
+        margin: 1em;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .cancel-button,
+    .submit-button {
+        width: 100%;
+    }
+}

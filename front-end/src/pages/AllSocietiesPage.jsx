@@ -42,9 +42,28 @@ function AllSocietiesPage() {
         }
     };
 
+    const getFilteredSocieties = () => {
+        return allSocieties.filter(society => {
+            // Search term filter
+            const matchesSearch = 
+                society.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (society.description && society.description.toLowerCase().includes(searchTerm.toLowerCase()));
+            
+            // Eğer showFollowedOnly false ise, sadece search filtresini uygula
+            if (!showFollowedOnly) return matchesSearch;
+            
+            // Eğer showFollowedOnly true ise ve kullanıcı giriş yapmışsa
+            if (user && user.followedSocieties) {
+                return matchesSearch && user.followedSocieties.includes(society.id.toString());
+            }
+            
+            return false;
+        });
+    };
+
     const handleDeleteClick = (society, e) => {
-        e.preventDefault(); // Link'in çalışmasını engelle
-        e.stopPropagation(); // Event'in parent elementlere yayılmasını engelle
+        e.preventDefault();
+        e.stopPropagation();
         setSelectedSociety(society);
         setShowDeleteModal(true);
     };
@@ -56,29 +75,12 @@ function AllSocietiesPage() {
             await endpoints.deleteSociety(selectedSociety.id);
             setShowDeleteModal(false);
             setSelectedSociety(null);
-            await fetchSocieties(); // Listeyi yenile
+            await fetchSocieties();
             setError(null);
         } catch (err) {
             console.error('Error deleting society:', err);
             setError('Failed to delete society. Please try again later.');
         }
-    };
-
-    const getFilteredSocieties = () => {
-        return allSocieties.filter(society => {
-            const matchesSearch = 
-                society.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                (society.description && society.description.toLowerCase().includes(searchTerm.toLowerCase()));
-            
-            if (showFollowedOnly && (!user || !user.followedSocieties)) {
-                return false;
-            }
-
-            const matchesFollowing = !showFollowedOnly || 
-                (user?.followedSocieties?.includes(society.id));
-
-            return matchesSearch && matchesFollowing;
-        });
     };
 
     const handleInputChange = (e) => {
@@ -168,7 +170,7 @@ function AllSocietiesPage() {
                                         className="society-item" 
                                         name={society.name} 
                                         description={society.description} 
-                                        isFollowing={user?.followedSocieties?.includes(society.id)}
+                                        isFollowing={user?.followedSocieties?.includes(society.id.toString())}
                                     />
                                 </NavLink>
                                 {user?.role === 'admin' && (

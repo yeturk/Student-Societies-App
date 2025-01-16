@@ -1,4 +1,3 @@
-// DeleteAccount.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Section from './Section';
@@ -9,6 +8,7 @@ import { endpoints } from '../../services/api';
 const DeleteAccount = () => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -19,12 +19,28 @@ const DeleteAccount = () => {
     }
 
     try {
-      await endpoints.deleteUser(user.id);
+      setIsLoading(true);
+      setError('');
+
+      // Önce kullanıcının takip ettiği topluluklar ve varsa lider olduğu topluluk için kontroller yapılabilir
+      if (user.role === 'society-leader') {
+        setError('Society leaders cannot delete their accounts. Please contact an administrator.');
+        return;
+      }
+
+      // API'ye integer ID gönderiyoruz
+      await endpoints.deleteStudent(parseInt(user.id));
+      
+      // Başarılı silme işleminden sonra
       logout();
-      navigate('/login');
+      navigate('/login', { 
+        state: { message: 'Your account has been successfully deleted.' }
+      });
     } catch (err) {
-      setError('An error occurred while deleting your account');
       console.error('Delete account error:', err);
+      setError(err.response?.data?.message || 'An error occurred while deleting your account');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -39,7 +55,14 @@ const DeleteAccount = () => {
         </p>
 
         {error && (
-          <div className="account-settings-alert" style={{ backgroundColor: '#fee2e2', borderColor: '#f87171', color: '#b91c1c', marginBottom: '20px' }}>
+          <div className="account-settings-alert" style={{ 
+            backgroundColor: '#fee2e2', 
+            borderColor: '#f87171', 
+            color: '#b91c1c', 
+            marginBottom: '20px',
+            padding: '12px',
+            borderRadius: '6px'
+          }}>
             {error}
           </div>
         )}
@@ -52,6 +75,7 @@ const DeleteAccount = () => {
               className="account-settings-checkbox"
               checked={isConfirmed}
               onChange={(e) => setIsConfirmed(e.target.checked)}
+              disabled={isLoading}
             />
             <label htmlFor="confirmDelete" style={{ color: '#4b5563' }}>
               I confirm that I want to delete my account permanently
@@ -68,11 +92,13 @@ const DeleteAccount = () => {
             border: 'none',
             padding: '10px 20px',
             borderRadius: '8px',
-            cursor: 'pointer',
+            cursor: isLoading ? 'not-allowed' : 'pointer',
             marginTop: '20px',
+            opacity: isLoading ? 0.7 : 1,
           }}
+          disabled={isLoading}
         >
-          Delete Account
+          {isLoading ? 'Deleting Account...' : 'Delete Account'}
         </button>
       </div>
     </Section>

@@ -1,4 +1,3 @@
-// PasswordSettings.jsx
 import React, { useState } from 'react';
 import Section from './Section';
 import FormGroup from './FormGroup';
@@ -35,18 +34,20 @@ const PasswordSettings = () => {
     }
 
     try {
-      // Mevcut kullanıcıyı ve şifresini kontrol et
-      const { data: currentUser } = await endpoints.getUser(user.id);
-
-      if (currentUser.password !== passwords.currentPassword) {
-        setError('Current password is incorrect');
-        return;
-      }
+      // API'nin beklediği formatta veriyi hazırla
+      const updateData = {
+        id: parseInt(user.id), // API integer bekliyor
+        name: user.name,
+        email: user.email,
+        password: passwords.newPassword,
+        department: user.department,
+        role: user.role,
+        notificationOpenForEmail: true,
+        followedSocieties: user.followedSocieties || []
+      };
 
       // Şifreyi güncelle
-      await endpoints.updateUser(user.id, {
-        password: passwords.newPassword
-      });
+      await endpoints.updateStudent(user.id, updateData);
 
       setSuccess('Password updated successfully');
       setPasswords({
@@ -55,8 +56,8 @@ const PasswordSettings = () => {
         confirmPassword: ''
       });
     } catch (err) {
-      setError('An error occurred while updating password');
       console.error('Password update error:', err);
+      setError(err.response?.data?.message || 'An error occurred while updating password');
     }
   };
 
@@ -104,7 +105,7 @@ const PasswordSettings = () => {
           />
         </FormGroup>
 
-        <button 
+        <button
           type="submit"
           className="account-settings-btn account-settings-btn--primary"
           style={{ marginTop: '20px' }}

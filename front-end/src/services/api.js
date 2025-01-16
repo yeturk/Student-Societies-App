@@ -276,7 +276,14 @@ const endpoints = {
 	getSocieties: () => mainApi.get(isProd ? paths.societies.list : paths.societies),
 	getSociety: (id) => mainApi.get(isProd ? paths.societies.get(id) : `${paths.societies}/${id}`),
 	createSociety: (data) => mainApi.post(isProd ? paths.societies.save : paths.societies, data),
-	updateSociety: (id, data) => mainApi.put(isProd ? paths.societies.update(id) : `${paths.societies}/${id}`, data),
+	updateSociety: (id, data) => {
+        const url = isProd ? paths.societies.update(id) : `${paths.societies}/${id}`;
+        // data içinde id'yi path'den alıyoruz, body'de göndermiyoruz
+        return mainApi.put(url, {
+            ...data,
+            id: parseInt(id)  // API integer bekliyor
+        });
+    },
 	deleteSociety: (id) => mainApi.delete(isProd ? paths.societies.delete(id) : `${paths.societies}/${id}`),
 
 	// Event endpoints
@@ -390,6 +397,23 @@ const endpoints = {
 			throw error;
 		}
 	},
+
+	sendPasswordToEmail: async (email) => {
+        try {
+            const response = await mainApi.post('/rest/api/student/login/forgotpassword', 
+                { email },  // Email'i JSON objesi olarak gönder
+                {
+                    headers: {
+                        'Content-Type': 'application/json'  // Content type'ı JSON olarak ayarla
+                    }
+                }
+            );
+            return response;
+        } catch (error) {
+            console.error("Error sending password reset email:", error);
+            throw error;
+        }
+    },
 };
 
 const sendPasswordToEmail = async (email) => {
